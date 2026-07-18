@@ -1,0 +1,252 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   CakeCraft Studio — Design System
+   White-label multi-tenant bakery SaaS.
+
+   Brand palette (source of truth — do not change without product sign-off):
+     Cream White      #FFF8F0
+     Soft Gold        #D4AF37
+     Rose Pink        #E89AAE
+     Dark Chocolate   #3A2A1F
+
+   Tailwind v4 is CSS-first: tokens declared in @theme generate utilities
+   (e.g. --color-gold-500 -> bg-gold-500 / text-gold-500 / border-gold-500).
+   Per-tenant branding overrides the semantic --brand-* variables at runtime
+   (set on <html data-tenant>), so components never hardcode brand hex values.
+   ========================================================================== */
+
+@theme {
+  /* ----- Brand scales ---------------------------------------------------- */
+
+  /* Cream White — surfaces & app background */
+  --color-cream-50: #fffdfb;
+  --color-cream-100: #fff8f0; /* anchor */
+  --color-cream-200: #fcefe1;
+  --color-cream-300: #f7e2cc;
+  --color-cream-400: #efd3b3;
+
+  /* Soft Gold — primary brand accent */
+  --color-gold-50: #fbf7ea;
+  --color-gold-100: #f6efcf;
+  --color-gold-200: #eddf9f;
+  --color-gold-300: #e3ce6f;
+  --color-gold-400: #dbbe4b;
+  --color-gold-500: #d4af37; /* anchor */
+  --color-gold-600: #b8942a;
+  --color-gold-700: #927320;
+  --color-gold-800: #6d561a;
+  --color-gold-900: #4a3a12;
+
+  /* Rose Pink — secondary brand accent */
+  --color-rose-50: #fdf3f6;
+  --color-rose-100: #fbe7ed;
+  --color-rose-200: #f5c9d5;
+  --color-rose-300: #efacbe;
+  --color-rose-400: #eba3b6;
+  --color-rose-500: #e89aae; /* anchor */
+  --color-rose-600: #de6a85;
+  --color-rose-700: #c93d60;
+  --color-rose-800: #9e2f4b;
+  --color-rose-900: #6e2135;
+
+  /* Dark Chocolate — text & deep surfaces */
+  --color-choco-50: #f5f2f0;
+  --color-choco-100: #e8e1dc;
+  --color-choco-200: #cfc1b8;
+  --color-choco-300: #b09c8f;
+  --color-choco-400: #8a7264;
+  --color-choco-500: #665141;
+  --color-choco-600: #4e3c2e;
+  --color-choco-700: #3a2a1f; /* anchor */
+  --color-choco-800: #2a1e16;
+  --color-choco-900: #1a120d;
+
+  /* ----- Semantic tokens (map to brand scales) --------------------------- */
+  --color-background: var(--color-cream-100);
+  --color-surface: #ffffff;
+  --color-foreground: var(--color-choco-700);
+  --color-muted: var(--color-cream-200);
+  --color-muted-foreground: var(--color-choco-400);
+  --color-border: var(--color-cream-300);
+
+  --color-primary: var(--color-gold-500);
+  --color-primary-foreground: var(--color-choco-800);
+  --color-secondary: var(--color-rose-500);
+  --color-secondary-foreground: #ffffff;
+  --color-accent: var(--color-rose-500);
+
+  --color-success: #4caf7d;
+  --color-warning: #e0a44a;
+  --color-danger: #d9534f;
+  --color-info: #5b8fd4;
+
+  /* ----- Typography ------------------------------------------------------ */
+  --font-display: var(--font-fredoka), "Trebuchet MS", ui-rounded, sans-serif;
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* ----- Radii (rounded, friendly, "bakery" softness) -------------------- */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1.25rem;
+  --radius-xl: 1.75rem;
+  --radius-2xl: 2.25rem;
+
+  /* ----- Shadows (warm-tinted) ------------------------------------------- */
+  --shadow-soft: 0 4px 20px -4px rgb(58 42 31 / 0.12);
+  --shadow-card: 0 8px 30px -8px rgb(58 42 31 / 0.16);
+  --shadow-lift: 0 18px 45px -12px rgb(58 42 31 / 0.24);
+  --shadow-glow-gold: 0 0 0 4px rgb(212 175 55 / 0.25);
+  --shadow-glow-rose: 0 0 0 4px rgb(232 154 174 / 0.3);
+
+  /* ----- Motion tokens --------------------------------------------------- */
+  /* Durations */
+  --duration-instant: 100ms;
+  --duration-fast: 180ms;
+  --duration-base: 280ms;
+  --duration-slow: 480ms;
+  --duration-slower: 720ms;
+
+  /* Easings — playful but controlled */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-back: cubic-bezier(0.34, 1.56, 0.64, 1); /* overshoot / "pop" */
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* ----- Keyframes & named animations ------------------------------------ */
+  --animate-float: float 6s var(--ease-in-out-soft) infinite;
+  --animate-wiggle: wiggle 0.6s var(--ease-in-out-soft);
+  --animate-pop: pop 0.35s var(--ease-back);
+  --animate-shimmer: shimmer 2.2s linear infinite;
+  --animate-rise: rise var(--duration-slow) var(--ease-out-soft) both;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-4deg);
+  }
+  75% {
+    transform: rotate(4deg);
+  }
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes rise {
+  0% {
+    transform: translateY(16px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ==========================================================================
+   Base layer
+   ========================================================================== */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--color-choco-800);
+    letter-spacing: -0.01em;
+  }
+
+  ::selection {
+    background: var(--color-gold-200);
+    color: var(--color-choco-800);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold-500);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+/* ==========================================================================
+   Motion accessibility — respect prefers-reduced-motion GLOBALLY.
+   Animation-heavy UI is a product priority, but it must never override a
+   user's OS-level reduced-motion preference. JS animation layers (Framer,
+   GSAP, Lenis, R3F) also read this flag; this is the CSS backstop.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Utility: shimmer skeleton background */
+@utility skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-cream-200) 25%,
+    var(--color-cream-300) 37%,
+    var(--color-cream-200) 63%
+  );
+  background-size: 200% 100%;
+  animation: var(--animate-shimmer);
+}

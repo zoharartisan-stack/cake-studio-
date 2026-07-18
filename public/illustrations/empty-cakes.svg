@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" width="320" height="240" role="img" aria-label="No cakes yet illustration">
+  <ellipse cx="160" cy="212" rx="104" ry="15" fill="#FCEFE1"/>
+  <rect x="104" y="150" width="112" height="56" rx="8" fill="#F5C9D5"/>
+  <rect x="112" y="112" width="96" height="44" rx="8" fill="#FBE7ED"/>
+  <rect x="122" y="82" width="76" height="34" rx="8" fill="#FFFFFF" stroke="#F7E2CC" stroke-width="2"/>
+  <path d="M104,150 q56,-20 112,0" fill="none" stroke="#FFFFFF" stroke-width="4"/>
+  <path d="M112,112 q48,-16 96,0" fill="none" stroke="#FFFFFF" stroke-width="4"/>
+  <circle cx="160" cy="64" r="9" fill="#D4AF37"/>
+  <path d="M160,73 l0,10" stroke="#D4AF37" stroke-width="3" stroke-linecap="round"/>
+  <g fill="#E89AAE">
+    <circle cx="130" cy="99" r="3"/>
+    <circle cx="160" cy="99" r="3"/>
+    <circle cx="190" cy="99" r="3"/>
+  </g>
+</svg>
