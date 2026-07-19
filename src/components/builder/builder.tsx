@@ -12,6 +12,7 @@ import { useReducedMotionSafe } from "@/hooks/use-reduced-motion-safe";
 import { type PreviewState } from "./cake-preview";
 import { CakePreview3D } from "./cake-preview-3d";
 import { DragTray } from "./drag-tray";
+import { Checkout } from "./checkout";
 import {
   buildSteps,
   estimateSubtotalMinor,
@@ -44,6 +45,7 @@ export function Builder({ bakery, menu, occasions }: BuilderProps) {
   const [selections, setSelections] = useState<Selections>({});
   const [serverSubtotal, setServerSubtotal] = useState<number | null>(null);
   const [pricing, setPricing] = useState(false);
+  const [checkingOut, setCheckingOut] = useState(false);
 
   const step = steps[index];
   const optimistic = estimateSubtotalMinor(steps, selections);
@@ -140,8 +142,21 @@ export function Builder({ bakery, menu, occasions }: BuilderProps) {
           isLast={isLast}
           onBack={() => goTo(index - 1)}
           onNext={() => goTo(index + 1)}
+          onAddToCart={() => setCheckingOut(true)}
         />
       </div>
+
+      <AnimatePresence>
+        {checkingOut && (
+          <Checkout
+            bakery={bakery}
+            steps={steps}
+            selections={selections}
+            subtotal={subtotal}
+            onClose={() => setCheckingOut(false)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -201,6 +216,7 @@ function PriceNav({
   isLast,
   onBack,
   onNext,
+  onAddToCart,
 }: {
   bakery: BuilderProps["bakery"];
   subtotal: number;
@@ -209,6 +225,7 @@ function PriceNav({
   isLast: boolean;
   onBack: () => void;
   onNext: () => void;
+  onAddToCart: () => void;
 }) {
   return (
     <div className="sticky bottom-0 flex items-center justify-between gap-3 border-t border-cream-300 bg-white/85 px-5 py-3.5 backdrop-blur sm:px-8">
@@ -234,6 +251,7 @@ function PriceNav({
         </Button>
         {isLast ? (
           <button
+            onClick={onAddToCart}
             className="inline-flex items-center gap-2 rounded-lg px-5 py-2.5 font-display font-medium text-white shadow-soft"
             style={{ backgroundColor: bakery.secondary_color }}
           >

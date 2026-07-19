@@ -266,8 +266,43 @@ Verified
   drop zone (2 pills) and appeared on the 3D cake; the new "Kids Birthday"
   occasion (from the master list) drove the badge. Test data removed.
 
+### Phase 5f — Review → checkout → order confirmation
+
+Added
+
+- `components/builder/checkout.tsx`: a right-side glass checkout drawer opened
+  from the builder's "Add to cart" action. Shows the design summary + the
+  **server-computed** total, a delivery/pickup toggle, guest contact fields,
+  and a payment section (Cash on Delivery active; Card/Stripe shown as
+  "Coming soon"). On success it swaps to a celebratory confirmation panel
+  (order number + total + reduced-motion-aware confetti).
+- `placeOrder` server action (`storefront/design/actions.ts`): derives the
+  bakery from the proxy-resolved tenant context (never the client), forwards
+  only selection **ids**, and calls the `place_order` RPC.
+- Migration `20260719110000_place_order_fn.sql` — `place_order` RPC. Guests
+  have no session (anonymous auth is disabled), so it is `SECURITY DEFINER`
+  with `search_path = ''`; safety is enforced inside: it writes only to the
+  passed bakery if it is `active`, **recomputes** the total from that bakery's
+  own available `menu_items` (client prices ignored), generates a unique
+  `ORD-xxxxxx` number, and supports Cash on Delivery only.
+
+Verified
+
+- End-to-end: a guest built a cake, opened the drawer, chose delivery, entered
+  contact details, and placed a COD order. DB confirmed order `ORD-601F4C`,
+  status `pending`, `cash_on_delivery`/`unpaid`, `total_minor` = the
+  server-recomputed subtotal (not a client value). Test bakery + order removed.
+
+Security notes
+
+- `place_order` is a deliberate public guest-checkout endpoint reachable by
+  `anon`; the advisor's one `SECURITY DEFINER` notice for it is expected and
+  documented above. The remaining `auth_leaked_password_protection` notice is
+  a dashboard auth setting, not a code issue.
+
 ## Next
 
-- **5f** review → cart → checkout (glass cart, COD + Stripe UI) + order
-  confirmation → **5g** polish/perf/a11y. (Full drag-onto-3D raycast placement
-  is a later refinement.)
+- **5g** polish/perf/a11y (loaders/skeletons, occasion particles/parallax,
+  performance tuning, full a11y audit). Stripe card payments remain gated
+  pending API keys + webhooks. Full drag-onto-3D raycast placement is a later
+  refinement.

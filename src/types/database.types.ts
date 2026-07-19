@@ -937,6 +937,27 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      place_order: {
+        Args: {
+          p_bakery: string
+          p_menu_ids: string[]
+          p_design_name: string
+          p_config: Json
+          p_fulfillment: string
+          p_customer_name: string
+          p_customer_phone: string
+          p_address: Json
+          p_delivery_date: string | null
+          p_delivery_slot: string
+          p_payment_method: string
+        }
+        Returns: {
+          order_number: string
+          total_minor: number
+          currency: string
+          locale: string
+        }[]
+      }
       provision_bakery: {
         Args: {
           p_name: string
