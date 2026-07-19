@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Cake, Palette, Store, Sparkles } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
@@ -62,10 +63,14 @@ export default function Home() {
           </Reveal>
           <Reveal delay={0.15}>
             <div className="mt-9 flex flex-wrap gap-4">
-              <Button size="lg">Start your bakery</Button>
-              <Button size="lg" variant="outline">
-                See a live storefront
-              </Button>
+              <Link href="/signup">
+                <Button size="lg">Start your bakery</Button>
+              </Link>
+              <Link href="/login">
+                <Button size="lg" variant="outline">
+                  Sign in
+                </Button>
+              </Link>
             </div>
           </Reveal>
         </Container>
@@ -120,12 +125,14 @@ export default function Home() {
                       </li>
                     ))}
                   </ul>
-                  <Button
-                    variant={tier.id === "premium" ? "primary" : "outline"}
-                    className="mt-6 w-full"
-                  >
-                    Choose {tier.name}
-                  </Button>
+                  <Link href="/signup" className="mt-6 block">
+                    <Button
+                      variant={tier.id === "premium" ? "primary" : "outline"}
+                      className="w-full"
+                    >
+                      Choose {tier.name}
+                    </Button>
+                  </Link>
                 </Card>
               </Reveal>
             ))}

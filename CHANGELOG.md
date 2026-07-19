@@ -81,6 +81,45 @@ Added
 - Next 16 renamed `middleware.ts` → `proxy.ts`; we use `proxy.ts`.
 - Prior DB scaffold conflicted with the spec; rebuilt clean with user sign-off.
 
+### Phase 3 — Bakery Onboarding & Branding
+
+Added
+
+- **Migrations 8–11**: `occasion_library.category` + full worldwide seed (91
+  occasions across 12 categories); public `bakery-logos` storage bucket with
+  member-scoped write policies; owner subscription-insert policy (records the
+  chosen plan pre-billing); and `provision_bakery()` — a SECURITY INVOKER
+  function that atomically creates bakery + owner membership + starter menu +
+  default occasions + trial subscription under the caller's RLS. Advisor: 0.
+- **Signup wizard** (`/signup`), 5 steps: Plan → Shop details (live subdomain
+  availability check) → Branding (color pickers + logo upload to Storage +
+  real-time storefront preview) → Menu basics (pre-filled starter menu) → Go
+  Live (storefront URL). Handles email-confirmation-required gracefully.
+- **Login** (`/login`) + sign-out; server-side `requireBakeryAccess` guard.
+- **Bakery dashboard** (`/dashboard`): overview, **Branding** panel (logo /
+  colors / subdomain with live preview), **Menu & Pricing** table editor
+  (writes `menu_items`), and **Occasions** manager (enable/disable by category
+  or individual + custom occasions via `bakery_occasions`).
+- **Security**: every branding/menu/occasion mutation is a server action that
+  calls `requireBakeryAccess()` and derives `bakery_id` from the session —
+  a client-supplied `bakery_id` is never trusted; RLS is the backstop.
+
+Verified
+
+- Provisioned two bakeries through the real `provision_bakery` RPC under real
+  authenticated JWTs (the wizard's actual backend path). Both went live
+  (active, menu, 16 default occasions, correct plan). Cross-tenant reads of
+  private data returned empty, a cross-tenant write was RLS-rejected (HTTP
+  403), and anon saw only the public catalog. Signup UI verified via browser
+  screenshots. Test data removed afterward.
+
+### Notes
+
+- Next 16 renamed `middleware` → `proxy`; tenant resolution lives in `proxy.ts`.
+- This project requires email confirmation on signup, so the wizard pauses on a
+  "confirm your email" step. Enabling auto-confirm in Supabase Auth makes owner
+  signup single-pass.
+
 ## Next
 
 - Await confirmation before the next phase (storefront / Cake Builder etc.).

@@ -719,6 +719,7 @@ export type Database = {
       }
       occasion_library: {
         Row: {
+          category: string
           created_at: string
           default_enabled: boolean
           description: string | null
@@ -730,6 +731,7 @@ export type Database = {
           sort_order: number
         }
         Insert: {
+          category?: string
           created_at?: string
           default_enabled?: boolean
           description?: string | null
@@ -741,6 +743,7 @@ export type Database = {
           sort_order?: number
         }
         Update: {
+          category?: string
           created_at?: string
           default_enabled?: boolean
           description?: string | null
@@ -934,7 +937,23 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      provision_bakery: {
+        Args: {
+          p_name: string
+          p_slug: string
+          p_plan: Database["public"]["Enums"]["subscription_tier"]
+          p_primary: string
+          p_secondary: string
+          p_accent: string
+          p_city: string
+          p_description: string
+          p_menu: Json
+        }
+        Returns: {
+          bakery_id: string
+          bakery_slug: string
+        }[]
+      }
     }
     Enums: {
       bakery_status: "pending" | "active" | "suspended" | "cancelled"
