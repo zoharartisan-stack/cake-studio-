@@ -17,50 +17,58 @@
    ========================================================================== */
 
 @theme {
-  /* ----- Brand scales ---------------------------------------------------- */
+  /* ----- Brand scales ----------------------------------------------------
+     Palette rebrand → Raspberry (#A22A4E) + Blush (#FFE4DE).
+     Scale NAMES are retained (cream/gold/rose/choco) for stability across the
+     codebase; only their VALUES changed. Mapping:
+       cream* = Blush surfaces/background (anchor #FFE4DE)
+       gold*  = Raspberry primary        (anchor #A22A4E)
+       rose*  = Raspberry-pink secondary (anchor #D45B77)
+       choco* = Deep-wine ink / text     (anchor #351C27)
+     Note: `gold` is now DARK — fills using it need light text.            */
 
-  /* Cream White — surfaces & app background */
-  --color-cream-50: #fffdfb;
-  --color-cream-100: #fff8f0; /* anchor */
-  --color-cream-200: #fcefe1;
-  --color-cream-300: #f7e2cc;
-  --color-cream-400: #efd3b3;
+  /* Blush — surfaces & app background (anchor #FFE4DE) */
+  --color-cream-50: #fff6f3;
+  --color-cream-100: #ffe4de; /* anchor */
+  --color-cream-200: #ffd3ca;
+  --color-cream-300: #f8bcb0;
+  --color-cream-400: #f0a597;
 
-  /* Soft Gold — primary brand accent */
-  --color-gold-50: #fbf7ea;
-  --color-gold-100: #f6efcf;
-  --color-gold-200: #eddf9f;
-  --color-gold-300: #e3ce6f;
-  --color-gold-400: #dbbe4b;
-  --color-gold-500: #d4af37; /* anchor */
-  --color-gold-600: #b8942a;
-  --color-gold-700: #927320;
-  --color-gold-800: #6d561a;
-  --color-gold-900: #4a3a12;
+  /* Raspberry — primary brand (anchor #A22A4E) */
+  --color-gold-50: #fbeaef;
+  --color-gold-100: #f6d3dc;
+  --color-gold-200: #eba9bc;
+  --color-gold-300: #dd7c98;
+  --color-gold-400: #c55174;
+  --color-gold-500: #a22a4e; /* anchor */
+  --color-gold-600: #8a2242;
+  --color-gold-700: #6e1b35;
+  --color-gold-800: #521428;
+  --color-gold-900: #360d1b;
 
-  /* Rose Pink — secondary brand accent */
-  --color-rose-50: #fdf3f6;
-  --color-rose-100: #fbe7ed;
-  --color-rose-200: #f5c9d5;
-  --color-rose-300: #efacbe;
-  --color-rose-400: #eba3b6;
-  --color-rose-500: #e89aae; /* anchor */
-  --color-rose-600: #de6a85;
-  --color-rose-700: #c93d60;
-  --color-rose-800: #9e2f4b;
-  --color-rose-900: #6e2135;
+  /* Raspberry-pink — secondary brand (anchor #D45B77) */
+  --color-rose-50: #fcedf1;
+  --color-rose-100: #f8d8e0;
+  --color-rose-200: #f0b3c3;
+  --color-rose-300: #e68ba3;
+  --color-rose-400: #dd6e8a;
+  --color-rose-500: #d45b77; /* anchor */
+  --color-rose-600: #bc3f5e;
+  --color-rose-700: #99304a;
+  --color-rose-800: #722438;
+  --color-rose-900: #4c1826;
 
-  /* Dark Chocolate — text & deep surfaces */
-  --color-choco-50: #f5f2f0;
-  --color-choco-100: #e8e1dc;
-  --color-choco-200: #cfc1b8;
-  --color-choco-300: #b09c8f;
-  --color-choco-400: #8a7264;
-  --color-choco-500: #665141;
-  --color-choco-600: #4e3c2e;
-  --color-choco-700: #3a2a1f; /* anchor */
-  --color-choco-800: #2a1e16;
-  --color-choco-900: #1a120d;
+  /* Deep wine — text & deep surfaces */
+  --color-choco-50: #f3eef0;
+  --color-choco-100: #e4d5da;
+  --color-choco-200: #c6a9b4;
+  --color-choco-300: #a67c8c;
+  --color-choco-400: #825565;
+  --color-choco-500: #613b49;
+  --color-choco-600: #4a2a36;
+  --color-choco-700: #351c27; /* anchor (foreground text) */
+  --color-choco-800: #241219;
+  --color-choco-900: #160a0f;
 
   /* ----- Semantic tokens (map to brand scales) --------------------------- */
   --color-background: var(--color-cream-100);
@@ -71,15 +79,15 @@
   --color-border: var(--color-cream-300);
 
   --color-primary: var(--color-gold-500);
-  --color-primary-foreground: var(--color-choco-800);
+  --color-primary-foreground: #ffffff; /* primary is dark now → light text */
   --color-secondary: var(--color-rose-500);
   --color-secondary-foreground: #ffffff;
   --color-accent: var(--color-rose-500);
 
-  --color-success: #4caf7d;
-  --color-warning: #e0a44a;
+  --color-success: #3f9b6e;
+  --color-warning: #d08a2c;
   --color-danger: #d9534f;
-  --color-info: #5b8fd4;
+  --color-info: #5b7fd4;
 
   /* ----- Typography ------------------------------------------------------ */
   --font-display: var(--font-fredoka), "Trebuchet MS", ui-rounded, sans-serif;
@@ -94,11 +102,11 @@
   --radius-2xl: 2.25rem;
 
   /* ----- Shadows (warm-tinted) ------------------------------------------- */
-  --shadow-soft: 0 4px 20px -4px rgb(58 42 31 / 0.12);
-  --shadow-card: 0 8px 30px -8px rgb(58 42 31 / 0.16);
-  --shadow-lift: 0 18px 45px -12px rgb(58 42 31 / 0.24);
-  --shadow-glow-gold: 0 0 0 4px rgb(212 175 55 / 0.25);
-  --shadow-glow-rose: 0 0 0 4px rgb(232 154 174 / 0.3);
+  --shadow-soft: 0 4px 20px -4px rgb(53 28 39 / 0.12);
+  --shadow-card: 0 8px 30px -8px rgb(53 28 39 / 0.16);
+  --shadow-lift: 0 18px 45px -12px rgb(53 28 39 / 0.22);
+  --shadow-glow-gold: 0 0 0 4px rgb(162 42 78 / 0.25);
+  --shadow-glow-rose: 0 0 0 4px rgb(212 91 119 / 0.3);
 
   /* ----- Motion tokens --------------------------------------------------- */
   /* Durations */

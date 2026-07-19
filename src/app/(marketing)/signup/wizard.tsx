@@ -64,9 +64,9 @@ export function SignupWizard() {
   const [awaitingConfirm, setAwaitingConfirm] = useState(false);
 
   // Branding
-  const [primaryColor, setPrimary] = useState<string>(brand.softGold);
-  const [secondaryColor, setSecondary] = useState<string>(brand.rosePink);
-  const [accentColor, setAccent] = useState<string>(brand.darkChocolate);
+  const [primaryColor, setPrimary] = useState<string>(brand.primary);
+  const [secondaryColor, setSecondary] = useState<string>(brand.secondary);
+  const [accentColor, setAccent] = useState<string>(brand.accent);
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
 

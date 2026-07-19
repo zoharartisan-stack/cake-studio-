@@ -7,58 +7,65 @@
  * must be computed or passed to a JS animation API.
  */
 
+// Palette rebrand → Raspberry (#A22A4E) + Blush (#FFE4DE). Scale keys retained
+// (cream/gold/rose/choco) for stability; values mirror globals.css @theme:
+//   cream = Blush · gold = Raspberry primary · rose = Raspberry-pink secondary
+//   choco = Deep-wine ink. Keep in sync with globals.css.
 export const brandColors = {
   cream: {
-    50: "#fffdfb",
-    100: "#fff8f0",
-    200: "#fcefe1",
-    300: "#f7e2cc",
-    400: "#efd3b3",
+    50: "#fff6f3",
+    100: "#ffe4de",
+    200: "#ffd3ca",
+    300: "#f8bcb0",
+    400: "#f0a597",
   },
   gold: {
-    50: "#fbf7ea",
-    100: "#f6efcf",
-    200: "#eddf9f",
-    300: "#e3ce6f",
-    400: "#dbbe4b",
-    500: "#d4af37",
-    600: "#b8942a",
-    700: "#927320",
-    800: "#6d561a",
-    900: "#4a3a12",
+    50: "#fbeaef",
+    100: "#f6d3dc",
+    200: "#eba9bc",
+    300: "#dd7c98",
+    400: "#c55174",
+    500: "#a22a4e",
+    600: "#8a2242",
+    700: "#6e1b35",
+    800: "#521428",
+    900: "#360d1b",
   },
   rose: {
-    50: "#fdf3f6",
-    100: "#fbe7ed",
-    200: "#f5c9d5",
-    300: "#efacbe",
-    400: "#eba3b6",
-    500: "#e89aae",
-    600: "#de6a85",
-    700: "#c93d60",
-    800: "#9e2f4b",
-    900: "#6e2135",
+    50: "#fcedf1",
+    100: "#f8d8e0",
+    200: "#f0b3c3",
+    300: "#e68ba3",
+    400: "#dd6e8a",
+    500: "#d45b77",
+    600: "#bc3f5e",
+    700: "#99304a",
+    800: "#722438",
+    900: "#4c1826",
   },
   choco: {
-    50: "#f5f2f0",
-    100: "#e8e1dc",
-    200: "#cfc1b8",
-    300: "#b09c8f",
-    400: "#8a7264",
-    500: "#665141",
-    600: "#4e3c2e",
-    700: "#3a2a1f",
-    800: "#2a1e16",
-    900: "#1a120d",
+    50: "#f3eef0",
+    100: "#e4d5da",
+    200: "#c6a9b4",
+    300: "#a67c8c",
+    400: "#825565",
+    500: "#613b49",
+    600: "#4a2a36",
+    700: "#351c27",
+    800: "#241219",
+    900: "#160a0f",
   },
 } as const;
 
-/** Primary brand anchors, for quick reference. */
+/**
+ * Primary brand anchors, for quick reference and as the default colors a new
+ * bakery starts with in the signup wizard.
+ */
 export const brand = {
-  creamWhite: brandColors.cream[100],
-  softGold: brandColors.gold[500],
-  rosePink: brandColors.rose[500],
-  darkChocolate: brandColors.choco[700],
+  background: brandColors.cream[100], // Blush  #FFE4DE
+  primary: brandColors.gold[500], //     Raspberry #A22A4E
+  secondary: brandColors.rose[500], //   Raspberry-pink #D45B77
+  accent: brandColors.choco[700], //     Deep wine #351C27
 } as const;
 
 /** Motion durations in seconds (Framer Motion / GSAP use seconds). */
