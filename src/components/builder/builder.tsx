@@ -9,7 +9,8 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils/cn";
 import { formatCurrency } from "@/lib/utils/format";
 import { useReducedMotionSafe } from "@/hooks/use-reduced-motion-safe";
-import { CakePreview, type PreviewState } from "./cake-preview";
+import { type PreviewState } from "./cake-preview";
+import { CakePreview3D } from "./cake-preview-3d";
 import {
   buildSteps,
   estimateSubtotalMinor,
@@ -95,7 +96,7 @@ export function Builder({ bakery, menu, occasions }: BuilderProps) {
     <div className="mx-auto grid max-w-7xl grid-cols-1 lg:grid-cols-[1.05fr_1fr]">
       {/* Preview */}
       <div className="sticky top-[57px] z-10 h-[40vh] border-b border-cream-300 bg-cream-50 lg:top-[65px] lg:h-[calc(100vh-65px)] lg:border-b-0 lg:border-r">
-        <CakePreview {...preview} />
+        <CakePreview3D {...preview} />
       </div>
 
       {/* Panel */}

@@ -217,7 +217,30 @@ Verified
   Fondant + Berries + Gold Leaf + candle + heart + message rendered all cues
   correctly, with the server price ticker confirming (Rs 6,500). Test data removed.
 
+### Phase 5d — Parametric 3D cake preview (React Three Fiber)
+
+Added
+
+- `components/builder/cake-3d.tsx`: parametric 3D cake (round cylinder / square
+  box / extruded **heart**), sponge + glossy/matte/soft frosting materials in
+  the tenant's colors, sphere toppings + a lit candle, three-point lighting and
+  a contact shadow, damped orbit + clamped zoom. `frameloop="demand"` + DPR cap
+  for battery/thermal efficiency.
+- `components/builder/cake-preview-3d.tsx`: capability-gated host — renders the
+  2.5D preview on the server and on low-power/no-WebGL devices, and lazily
+  (`next/dynamic`, `ssr:false`) upgrades to the 3D cake when supported. Occasion
+  badge + "drag to rotate" hint overlays.
+- Shared `lib/builder/preview-mapping.ts` (sponge/filling/finish/topping
+  mappings) used by both the 2.5D and 3D previews.
+
+Verified
+
+- Screenshots (headless Chromium + WebGL) of the round and heart cakes with
+  chocolate sponge, raspberry fondant, gold + berry toppings, and a candle,
+  correctly framed and grounded; capability gate falls back to 2.5D otherwise.
+  Test data removed.
+
 ## Next
 
-- **5d** parametric 3D preview (R3F) → **5e** drag-and-drop → **5f**
+- **5e** drag-and-drop toppings/decorations (+ raycast placement) → **5f**
   cart/checkout + confirmation → **5g** polish/perf/a11y.
