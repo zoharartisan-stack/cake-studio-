@@ -120,6 +120,31 @@ Verified
   "confirm your email" step. Enabling auto-confirm in Supabase Auth makes owner
   signup single-pass.
 
+### Phase 4 — Storefront shell (per-bakery, subdomain-resolved)
+
+Added
+
+- **Tenant rewrite in `proxy.ts`**: subdomain / custom-domain requests are
+  rewritten into an internal `/storefront` namespace (with `x-bakery-id`
+  attached); the root domain keeps serving marketing + dashboard. Unknown
+  tenant hosts redirect to the root SaaS site; `/storefront` is blocked from
+  direct access on the root domain.
+- **`getCurrentBakery()`** — loads the active tenant for the request (anon /
+  RLS), used by the storefront.
+- **Storefront** (`(storefront)/storefront`): branded layout (per-tenant logo +
+  colors from the bakery record, not the platform palette), header, footer;
+  a home page with hero + "from" base price, the bakery's enabled occasions,
+  and a menu/catalog preview grouped by builder step; and a Cake Builder entry
+  placeholder at `/design` (next phase).
+
+Verified
+
+- Two distinctly-branded bakeries rendered correctly on their own subdomains
+  (`petal.localhost` teal/gold vs `cocoa.localhost` chocolate/pink), each
+  showing only its own name, menu (PKR prices), and occasions. Unknown
+  subdomains redirected to root. Screenshots captured; test data removed.
+
 ## Next
 
-- Await confirmation before the next phase (storefront / Cake Builder etc.).
+- The full 16-step animated Cake Builder (live preview + server-side pricing),
+  cart, checkout (Stripe cards + Cash-on-Delivery), and order tracking.

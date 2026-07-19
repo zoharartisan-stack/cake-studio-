@@ -13,10 +13,13 @@ import {
  * Next 16 Proxy (formerly `middleware.ts` — renamed and Node-runtime by default
  * in v16). Runs before every matched request and does two jobs:
  *
- *   1. TENANT RESOLUTION — map the hostname to an active bakery and attach its
- *      bakery_id to the request (headers `x-bakery-id` / `x-bakery-slug`).
- *      Requests to an unknown/inactive tenant host are redirected to the root
- *      SaaS site. This identifies the tenant; RLS still enforces isolation.
+ *   1. TENANT RESOLUTION + REWRITE — map the hostname to an active bakery,
+ *      attach its bakery_id to the request (headers `x-bakery-id` /
+ *      `x-bakery-slug`), and rewrite tenant (subdomain / custom-domain)
+ *      requests into the internal `/storefront` route namespace. The root
+ *      domain keeps serving the marketing site + dashboard. Requests to an
+ *      unknown/inactive tenant host redirect to the root SaaS site. This
+ *      identifies the tenant; RLS still enforces isolation.
  *
  *   2. SUPABASE SESSION REFRESH — keep the auth cookies fresh so Server
  *      Components see the signed-in user (@supabase/ssr requirement).
@@ -36,13 +39,17 @@ export async function proxy(request: NextRequest) {
   requestHeaders.delete(TENANT_SLUG_HEADER);
 
   const parsed = parseHost(request.headers.get("host"), ROOT_DOMAIN);
+  const { pathname } = request.nextUrl;
 
   // Without Supabase configured we can't resolve tenants or refresh sessions.
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
     return NextResponse.next({ request: { headers: requestHeaders } });
   }
 
-  // --- 1. Tenant resolution (public read; plain anon client) ----------------
+  // --- 1. Tenant resolution + rewrite target --------------------------------
+  // For a tenant host, all requests are rewritten into /storefront/*.
+  let rewriteUrl: URL | null = null;
+
   if (parsed.kind !== "root") {
     const lookup = createClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY, {
       auth: { persistSession: false, autoRefreshToken: false },
@@ -61,10 +68,26 @@ export async function proxy(request: NextRequest) {
 
     requestHeaders.set(TENANT_ID_HEADER, bakery.id);
     requestHeaders.set(TENANT_SLUG_HEADER, bakery.slug);
+
+    // Avoid double-prefixing if already inside the namespace.
+    if (!pathname.startsWith("/storefront")) {
+      rewriteUrl = request.nextUrl.clone();
+      rewriteUrl.pathname = `/storefront${pathname === "/" ? "" : pathname}`;
+    }
+  } else if (pathname.startsWith("/storefront")) {
+    // /storefront is internal-only; block direct access on the root domain.
+    const url = request.nextUrl.clone();
+    url.pathname = "/";
+    return NextResponse.redirect(url);
   }
 
+  const build = () =>
+    rewriteUrl
+      ? NextResponse.rewrite(rewriteUrl, { request: { headers: requestHeaders } })
+      : NextResponse.next({ request: { headers: requestHeaders } });
+
   // --- 2. Supabase auth session refresh -------------------------------------
-  let response = NextResponse.next({ request: { headers: requestHeaders } });
+  let response = build();
 
   const supabase = createServerClient<Database>(
     SUPABASE_URL,
@@ -78,7 +101,7 @@ export async function proxy(request: NextRequest) {
           cookiesToSet.forEach(({ name, value }) =>
             request.cookies.set(name, value),
           );
-          response = NextResponse.next({ request: { headers: requestHeaders } });
+          response = build();
           cookiesToSet.forEach(({ name, value, options }) =>
             response.cookies.set(name, value, options),
           );
