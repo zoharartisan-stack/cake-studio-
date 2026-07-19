@@ -11,6 +11,7 @@ import { formatCurrency } from "@/lib/utils/format";
 import { useReducedMotionSafe } from "@/hooks/use-reduced-motion-safe";
 import { type PreviewState } from "./cake-preview";
 import { CakePreview3D } from "./cake-preview-3d";
+import { DragTray } from "./drag-tray";
 import {
   buildSteps,
   estimateSubtotalMinor,
@@ -289,7 +290,19 @@ function StepView({
           />
         )}
 
-        {(step.kind === "multi" || step.kind === "dietary") && step.options && (
+        {step.kind === "multi" && step.options && (
+          <DragTray
+            options={step.options}
+            selectedIds={valueToIds(selections[step.id])}
+            currency={bakery.currency}
+            locale={bakery.locale}
+            primary={bakery.primary_color}
+            secondary={bakery.secondary_color}
+            onToggle={(id) => onMulti(step.id, id)}
+          />
+        )}
+
+        {step.kind === "dietary" && step.options && (
           <OptionGrid
             options={step.options}
             selectedIds={valueToIds(selections[step.id])}

@@ -240,7 +240,34 @@ Verified
   correctly framed and grounded; capability gate falls back to 2.5D otherwise.
   Test data removed.
 
+### Occasion library — full global master list
+
+- Reseeded `occasion_library` with the complete worldwide set: **277 occasions
+  across 26 categories** (Birthdays, Love & Relationships, Family & Baby,
+  Education, Career & Business, Vehicles, Home & Property, Financial, Achievements,
+  Travel & Immigration, Gaming & Entertainment, Shopping & Lifestyle, Pets,
+  Christian/Islamic/Hindu/Jewish/Buddhist, International & National holidays,
+  Social, Digital & Personal milestones, Seasonal, Luxury, Just Because).
+  Slugs deduped across categories; a curated ~32 are default-enabled.
+
+### Phase 5e — Drag-and-drop toppings & decorations
+
+Added
+
+- `components/builder/drag-tray.tsx`: draggable ingredient chips + a drop zone
+  for the topping/decoration steps. Drag a chip onto the zone to add it, or
+  **tap / keyboard-activate** it (full parity for touch + assistive tech).
+  Placed items appear as removable pills; the live preview reacts immediately.
+  A drag-vs-tap guard prevents a drag from also firing the chip's click.
+
+Verified
+
+- Browser test: tapping one topping and dragging another both landed in the
+  drop zone (2 pills) and appeared on the 3D cake; the new "Kids Birthday"
+  occasion (from the master list) drove the badge. Test data removed.
+
 ## Next
 
-- **5e** drag-and-drop toppings/decorations (+ raycast placement) → **5f**
-  cart/checkout + confirmation → **5g** polish/perf/a11y.
+- **5f** review → cart → checkout (glass cart, COD + Stripe UI) + order
+  confirmation → **5g** polish/perf/a11y. (Full drag-onto-3D raycast placement
+  is a later refinement.)
