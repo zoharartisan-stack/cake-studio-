@@ -176,8 +176,29 @@ Verified
   updates (Rs 3,800 → Rs 4,300), and the review summary all worked. Screenshots
   captured; test data removed.
 
+### Phase 5b — Server-side pricing engine
+
+Added
+
+- **`priceCake(selections)` server action** (`/design/actions.ts`): the
+  authoritative, tenant-scoped total. The bakery is taken from the proxy-resolved
+  tenant context (`x-bakery-id`), **never from the client**; only selection ids
+  are accepted; prices are read from `menu_items` scoped to that bakery and to
+  available items. A client cannot inject an item, a price, or another tenant's
+  menu. Non-menu selections contribute 0.
+- Builder ticker wired to it: a **debounced** (220ms) recompute on every
+  selection change, an optimistic estimate for instant feedback until the server
+  responds, and a "confirming…" spinner while pending. Lint-safe (no synchronous
+  setState in effects).
+
+Verified
+
+- Exercised the exact scoped-sum query with an injected other-tenant id and a
+  fabricated id present: both were excluded (total 240000 = legit-only 240000),
+  proving tenant scoping and DB-only pricing. Ran inside a rolled-back
+  transaction — nothing persisted.
+
 ## Next
 
-- **5b** server-side pricing engine → **5c** richer animated steps + reactive
-  2.5D → **5d** 3D preview → **5e** drag-and-drop → **5f** cart/checkout +
-  confirmation → **5g** polish/perf/a11y.
+- **5c** richer animated steps + reactive 2.5D → **5d** 3D preview → **5e**
+  drag-and-drop → **5f** cart/checkout + confirmation → **5g** polish/perf/a11y.

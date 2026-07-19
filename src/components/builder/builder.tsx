@@ -1,8 +1,9 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, ArrowLeft, ArrowRight, PartyPopper } from "lucide-react";
+import { Check, ArrowLeft, ArrowRight, PartyPopper, Loader2 } from "lucide-react";
+import { priceCake } from "@/app/(storefront)/storefront/design/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils/cn";
@@ -39,10 +40,32 @@ export function Builder({ bakery, menu, occasions }: BuilderProps) {
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   const [selections, setSelections] = useState<Selections>({});
+  const [serverSubtotal, setServerSubtotal] = useState<number | null>(null);
+  const [pricing, setPricing] = useState(false);
 
   const step = steps[index];
-  const subtotal = estimateSubtotalMinor(steps, selections);
+  const optimistic = estimateSubtotalMinor(steps, selections);
+  // Authoritative total from the server once it responds; optimistic until then.
+  const subtotal = serverSubtotal ?? optimistic;
   const preview = derivePreview(bakery, steps, selections);
+
+  // Debounced, tenant-scoped server price recompute (source of truth).
+  useEffect(() => {
+    let cancelled = false;
+    const t = setTimeout(async () => {
+      setPricing(true);
+      try {
+        const res = await priceCake(selections);
+        if (!cancelled && res.ok) setServerSubtotal(res.subtotalMinor);
+      } finally {
+        if (!cancelled) setPricing(false);
+      }
+    }, 220);
+    return () => {
+      cancelled = true;
+      clearTimeout(t);
+    };
+  }, [selections]);
 
   function goTo(next: number) {
     if (next < 0 || next >= steps.length) return;
@@ -110,6 +133,7 @@ export function Builder({ bakery, menu, occasions }: BuilderProps) {
         <PriceNav
           bakery={bakery}
           subtotal={subtotal}
+          pricing={pricing}
           index={index}
           isLast={isLast}
           onBack={() => goTo(index - 1)}
@@ -170,6 +194,7 @@ function ProgressRail({
 function PriceNav({
   bakery,
   subtotal,
+  pricing,
   index,
   isLast,
   onBack,
@@ -177,6 +202,7 @@ function PriceNav({
 }: {
   bakery: BuilderProps["bakery"];
   subtotal: number;
+  pricing: boolean;
   index: number;
   isLast: boolean;
   onBack: () => void;
@@ -185,7 +211,10 @@ function PriceNav({
   return (
     <div className="sticky bottom-0 flex items-center justify-between gap-3 border-t border-cream-300 bg-white/85 px-5 py-3.5 backdrop-blur sm:px-8">
       <div>
-        <p className="text-xs text-choco-400">Estimated total</p>
+        <p className="flex items-center gap-1.5 text-xs text-choco-400">
+          Estimated total
+          {pricing && <Loader2 className="h-3 w-3 animate-spin" />}
+        </p>
         <motion.p
           key={subtotal}
           initial={{ scale: 0.9, opacity: 0.6 }}
