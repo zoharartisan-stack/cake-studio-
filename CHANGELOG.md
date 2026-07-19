@@ -144,7 +144,40 @@ Verified
   showing only its own name, menu (PKR prices), and occasions. Unknown
   subdomains redirected to root. Screenshots captured; test data removed.
 
+### Design
+
+- **`docs/cake-builder-design-spec.md`** — full design specification for the
+  animated Cake Builder (UX flow, design-system extension, transitions,
+  micro-interactions, drag-and-drop, R3F 3D preview, accessibility, performance
+  budgets, tech mapping, and a 5a–5g implementation plan).
+
+### Phase 5a — Cake Builder shell & state
+
+Added
+
+- **Builder** (`/design` on a tenant storefront): step model derived from the
+  bakery's own menu + enabled occasions (`lib/builder/steps.ts`), builder state,
+  animated step transitions (Framer `AnimatePresence`), a jump-anywhere progress
+  rail, and a sticky price + Back/Next bar. Fully **tenant-branded**.
+- **Reactive 2.5D preview placeholder** (`cake-preview.tsx`) that already
+  responds to size (scale), shape (silhouette), toppings (count), message, and
+  occasion — reduced-motion-safe. The parametric 3D preview replaces it in 5d.
+- Card-based steps (occasion, size, flavor, filling, frosting, toppings,
+  decorations, shape, message, dietary, date, review) with select
+  micro-interactions and a review summary.
+- **Optimistic** client-side price estimate for the ticker
+  (`estimateSubtotalMinor`); Phase 5b makes the total server-authoritative and
+  tenant-scoped.
+
+Verified
+
+- Clicked through the builder on a seeded tenant (`build.localhost`): step
+  transitions, per-tenant purple/pink branding, live preview reaction, price
+  updates (Rs 3,800 → Rs 4,300), and the review summary all worked. Screenshots
+  captured; test data removed.
+
 ## Next
 
-- The full 16-step animated Cake Builder (live preview + server-side pricing),
-  cart, checkout (Stripe cards + Cash-on-Delivery), and order tracking.
+- **5b** server-side pricing engine → **5c** richer animated steps + reactive
+  2.5D → **5d** 3D preview → **5e** drag-and-drop → **5f** cart/checkout +
+  confirmation → **5g** polish/perf/a11y.
