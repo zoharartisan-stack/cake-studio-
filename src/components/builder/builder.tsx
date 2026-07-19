@@ -488,19 +488,27 @@ function derivePreview(
     }
   }
 
-  const shapeName =
+  const optionName = (category: string, key = category): string | undefined =>
     steps
-      .find((s) => s.category === "shape")
-      ?.options?.find((o) => o.id === selections["shape"])
-      ?.name.toLowerCase() ?? "";
+      .find((s) => s.category === category)
+      ?.options?.find((o) => o.id === selections[key])?.name;
+
+  const shapeName = (optionName("shape") ?? "").toLowerCase();
   const shape: PreviewState["shape"] = shapeName.includes("square")
     ? "square"
     : shapeName.includes("heart")
       ? "heart"
       : "round";
 
-  const toppings =
-    valueToIds(selections["topping"]).length + valueToIds(selections["decoration"]).length;
+  const namesFor = (category: string): string[] => {
+    const step = steps.find((s) => s.category === category);
+    if (!step?.options) return [];
+    return valueToIds(selections[category])
+      .map((id) => step.options?.find((o) => o.id === id)?.name)
+      .filter((n): n is string => Boolean(n));
+  };
+
+  const toppingNames = [...namesFor("topping"), ...namesFor("decoration")];
 
   const occasion = steps
     .find((s) => s.kind === "occasion")
@@ -512,7 +520,10 @@ function derivePreview(
     accent: bakery.accent_color,
     scale,
     shape,
-    toppings,
+    flavorName: optionName("flavor"),
+    fillingName: optionName("filling"),
+    frostingName: optionName("frosting"),
+    toppingNames,
     message: (selections["message"] as string) ?? "",
     occasion,
   };

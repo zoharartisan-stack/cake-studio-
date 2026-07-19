@@ -198,7 +198,26 @@ Verified
   proving tenant scoping and DB-only pricing. Ran inside a rolled-back
   transaction — nothing persisted.
 
+### Phase 5c — Richer reactive 2.5D preview
+
+Added
+
+- Rebuilt `cake-preview.tsx` to react expressively to selections: sponge color
+  tweens by **flavor**, a **filling** stripe by filling, frosting **finish**
+  (glossy fondant / soft whipped / matte buttercream), **distinct topping
+  shapes** (berry dots, gold diamonds, chocolate triangles, flowers, sprinkles),
+  a **lit candle** with a flickering flame, the piped **message**, and the
+  **occasion** badge — with per-change pop/tween payoffs. Fully reduced-motion-safe.
+- Builder passes the selected option names to the preview
+  (`derivePreview` reworked) so mappings are name-driven.
+
+Verified
+
+- Screenshot on a seeded tenant with 2 kg + Belgian Chocolate + Salted Caramel +
+  Fondant + Berries + Gold Leaf + candle + heart + message rendered all cues
+  correctly, with the server price ticker confirming (Rs 6,500). Test data removed.
+
 ## Next
 
-- **5c** richer animated steps + reactive 2.5D → **5d** 3D preview → **5e**
-  drag-and-drop → **5f** cart/checkout + confirmation → **5g** polish/perf/a11y.
+- **5d** parametric 3D preview (R3F) → **5e** drag-and-drop → **5f**
+  cart/checkout + confirmation → **5g** polish/perf/a11y.
