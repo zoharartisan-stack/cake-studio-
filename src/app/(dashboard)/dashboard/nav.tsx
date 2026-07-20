@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Palette, UtensilsCrossed, CalendarHeart } from "lucide-react";
+import { LayoutDashboard, Palette, UtensilsCrossed, CalendarHeart, ClipboardList } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 
 const LINKS = [
   { href: "/dashboard", label: "Overview", icon: LayoutDashboard, exact: true },
+  { href: "/dashboard/orders", label: "Orders", icon: ClipboardList },
   { href: "/dashboard/branding", label: "Branding", icon: Palette },
   { href: "/dashboard/menu", label: "Menu & Pricing", icon: UtensilsCrossed },
   { href: "/dashboard/occasions", label: "Occasions", icon: CalendarHeart },

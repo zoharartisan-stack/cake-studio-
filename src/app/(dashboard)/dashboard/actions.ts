@@ -238,3 +238,53 @@ export async function removeCustomOccasion(id: string): Promise<ActionResult> {
   revalidatePath("/dashboard/occasions");
   return { ok: true };
 }
+
+/* ============================ Orders ============================ */
+
+/** The order lifecycle statuses a baker can move an order through. */
+export const ORDER_STATUSES = [
+  "pending",
+  "confirmed",
+  "in_production",
+  "ready",
+  "out_for_delivery",
+  "delivered",
+  "completed",
+  "cancelled",
+] as const;
+
+type OrderStatus = (typeof ORDER_STATUSES)[number];
+
+/**
+ * Move an order to a new status. bakery_id is derived from the signed-in
+ * baker's membership (never the client), the write is scoped to that bakery,
+ * and the change is recorded in order_status_history for an audit trail.
+ */
+export async function updateOrderStatus(
+  orderId: string,
+  status: OrderStatus,
+): Promise<ActionResult> {
+  const access = await requireBakeryAccess();
+  if (!ORDER_STATUSES.includes(status)) {
+    return { ok: false, error: "Unknown order status." };
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("orders")
+    .update({ status })
+    .eq("id", orderId)
+    .eq("bakery_id", access.bakeryId);
+  if (error) return { ok: false, error: error.message };
+
+  // Best-effort audit trail; don't fail the action if history insert trips.
+  await supabase.from("order_status_history").insert({
+    bakery_id: access.bakeryId,
+    order_id: orderId,
+    status,
+    changed_by: access.userId,
+  });
+
+  revalidatePath("/dashboard/orders");
+  return { ok: true };
+}
