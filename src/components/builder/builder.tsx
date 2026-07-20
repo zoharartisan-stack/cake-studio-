@@ -418,6 +418,11 @@ function OptionGrid({
               </motion.span>
             )}
             <span className="block font-display font-medium text-choco-800">{o.name}</span>
+            {o.servings != null && (
+              <span className="mt-0.5 block text-sm font-medium text-choco-500">
+                Serves ~{o.servings}
+              </span>
+            )}
             {o.priceMinor > 0 && (
               <span className="mt-0.5 block text-sm text-choco-400">
                 +{formatCurrency(o.priceMinor, bakery.currency, bakery.locale)}
@@ -492,6 +497,7 @@ function ReviewSummary({
 const REVIEW_LABELS: Record<string, string> = {
   occasion: "Occasion",
   size: "Size",
+  tiers: "Tiers",
   flavor: "Flavor",
   filling: "Filling",
   frosting: "Frosting",
@@ -546,11 +552,17 @@ function derivePreview(
     .find((s) => s.kind === "occasion")
     ?.options?.find((o) => o.id === selections["occasion"])?.name;
 
+  const tierSel = selections["tiers"];
+  const tiers = tierSel
+    ? Math.max(1, Math.min(5, parseInt(String(tierSel).replace("tier-", ""), 10) || 1))
+    : 1;
+
   return {
     primary: bakery.primary_color,
     secondary: bakery.secondary_color,
     accent: bakery.accent_color,
     scale,
+    tiers,
     shape,
     flavorName: optionName("flavor"),
     fillingName: optionName("filling"),

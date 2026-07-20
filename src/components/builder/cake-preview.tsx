@@ -16,6 +16,8 @@ export interface PreviewState {
   accent: string;
   /** 0.85–1.15 scale hint from the chosen size. */
   scale: number;
+  /** Number of stacked tiers (1–5). */
+  tiers: number;
   shape: "round" | "square" | "heart";
   flavorName?: string;
   fillingName?: string;
@@ -31,6 +33,7 @@ export function CakePreview(props: PreviewState) {
     secondary,
     accent,
     scale,
+    tiers,
     shape,
     flavorName,
     fillingName,
@@ -40,6 +43,8 @@ export function CakePreview(props: PreviewState) {
     occasion,
   } = props;
   const reduce = useReducedMotionSafe();
+  const count = Math.max(1, Math.min(5, Math.round(tiers || 1)));
+  const tierH = count <= 2 ? 84 : count === 3 ? 68 : 56;
 
   const sponge = spongeColor(flavorName);
   const filling = fillingColor(fillingName);
@@ -172,23 +177,46 @@ export function CakePreview(props: PreviewState) {
             </span>
           </div>
 
-          {/* base tier — sponge color tweens on flavor change; filling stripe */}
-          <motion.div
-            className="relative mx-auto -mt-1 h-28 w-60 overflow-hidden"
-            style={{ borderRadius: bodyRadius }}
-            animate={{ backgroundColor: sponge }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-          >
-            <motion.span
-              className="absolute left-0 right-0 top-1/2 h-3 -translate-y-1/2"
-              animate={{ backgroundColor: filling }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-            />
-            <span
-              className="absolute inset-x-0 top-0 h-4"
-              style={{ background: "rgba(255,255,255,.14)" }}
-            />
-          </motion.div>
+          {/* stacked tiers — narrow on top, wide at the base. Sponge color
+              tweens on flavor change; each tier grows/shrinks when the tier
+              count changes. */}
+          <div className="mx-auto flex flex-col items-center">
+            <AnimatePresence initial={false}>
+              {Array.from({ length: count }).map((_, j) => {
+                const width = 176 + j * 30;
+                return (
+                  <motion.div
+                    key={j}
+                    initial={reduce ? false : { scaleY: 0, opacity: 0 }}
+                    animate={{ scaleY: 1, opacity: 1, backgroundColor: sponge }}
+                    exit={reduce ? { opacity: 0 } : { scaleY: 0, opacity: 0 }}
+                    transition={{
+                      duration: 0.32,
+                      ease: "easeOut",
+                      backgroundColor: { duration: 0.4, ease: "easeOut" },
+                    }}
+                    className="relative -mt-1 overflow-hidden first:mt-0"
+                    style={{
+                      width,
+                      height: tierH,
+                      borderRadius: bodyRadius,
+                      transformOrigin: "bottom center",
+                    }}
+                  >
+                    <motion.span
+                      className="absolute left-0 right-0 top-1/2 h-2.5 -translate-y-1/2"
+                      animate={{ backgroundColor: filling }}
+                      transition={{ duration: 0.4, ease: "easeOut" }}
+                    />
+                    <span
+                      className="absolute inset-x-0 top-0 h-3"
+                      style={{ background: "rgba(255,255,255,.14)" }}
+                    />
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
+          </div>
 
           {/* plate */}
           <div className="mx-auto mt-1 h-3 w-64 rounded-full bg-black/10" />

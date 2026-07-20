@@ -14,6 +14,32 @@ export interface BuilderOption {
   name: string;
   priceMinor: number;
   isBasePrice: boolean;
+  /** Approx. servings, shown on size options ("serves ~20"). */
+  servings?: number;
+}
+
+/** Tier choices (1–5) — a config/visual step, no direct price. */
+export const TIER_OPTIONS: BuilderOption[] = [1, 2, 3, 4, 5].map((n) => ({
+  id: `tier-${n}`,
+  name: n === 1 ? "1 tier" : `${n} tiers`,
+  priceMinor: 0,
+  isBasePrice: false,
+}));
+
+/**
+ * Approximate servings for a size option, shown so customers think in "how many
+ * people" (blueprint §C). Heuristic: ~12 servings per kg, or a standard
+ * round-cake chart for inch sizes. Returns undefined when it can't tell.
+ */
+export function servingsForSize(name: string): number | undefined {
+  const kg = name.match(/([\d.]+)\s*kg/i);
+  if (kg) return Math.max(2, Math.round(parseFloat(kg[1]) * 12));
+  const inch = name.match(/(\d+)\s*(?:"|inch|in\b)/i);
+  if (inch) {
+    const chart: Record<number, number> = { 6: 10, 7: 15, 8: 20, 9: 27, 10: 38, 11: 45, 12: 56 };
+    return chart[parseInt(inch[1], 10)];
+  }
+  return undefined;
 }
 
 export type StepKind =
@@ -107,6 +133,7 @@ export function buildSteps(
         name: m.name,
         priceMinor: m.price_minor,
         isBasePrice: m.is_base_price,
+        servings: cat.key === "size" ? servingsForSize(m.name) : undefined,
       }));
     if (options.length === 0) continue;
     const copy = STEP_COPY[cat.key] ?? { title: cat.label, subtitle: "" };
@@ -119,6 +146,17 @@ export function buildSteps(
       options,
       optional: !cat.hasBase && MULTI_CATEGORIES.has(cat.key),
     });
+
+    // Right after size, offer tiers (1–5) — a visual/config choice shown in 3D.
+    if (cat.key === "size") {
+      steps.push({
+        id: "tiers",
+        title: "How many tiers?",
+        subtitle: "Stack it up — see it change live in 3D.",
+        kind: "single",
+        options: TIER_OPTIONS,
+      });
+    }
   }
 
   steps.push({
