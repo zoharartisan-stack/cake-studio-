@@ -250,13 +250,22 @@ function Confirmation({
           {formatCurrency(total, bakery.currency, bakery.locale)}
         </p>
       </div>
-      <Link
-        href="/"
-        className="mt-8 inline-flex items-center gap-2 rounded-full px-6 py-3 font-display font-semibold text-white"
-        style={{ backgroundColor: bakery.secondary_color }}
-      >
-        Back to {bakery.name}
-      </Link>
+      <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <Link
+          href={`/track?o=${encodeURIComponent(orderNumber)}`}
+          className="inline-flex items-center gap-2 rounded-full px-6 py-3 font-display font-semibold text-white"
+          style={{ backgroundColor: bakery.primary_color }}
+        >
+          Track your order
+        </Link>
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 rounded-full px-6 py-3 font-display font-semibold text-white"
+          style={{ backgroundColor: bakery.secondary_color }}
+        >
+          Back to {bakery.name}
+        </Link>
+      </div>
     </motion.div>
   );
 }

@@ -937,6 +937,22 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_order_status: {
+        Args: {
+          p_bakery: string
+          p_order_number: string
+        }
+        Returns: {
+          order_number: string
+          status: Database["public"]["Enums"]["order_status"]
+          fulfillment_type: Database["public"]["Enums"]["fulfillment_type"]
+          delivery_date: string | null
+          total_minor: number
+          currency: string
+          created_at: string
+          design_name: string
+        }[]
+      }
       place_order: {
         Args: {
           p_bakery: string

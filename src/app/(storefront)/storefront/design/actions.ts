@@ -140,3 +140,49 @@ export async function placeOrder(input: PlaceOrderInput): Promise<PlaceOrderResu
     locale: row.locale,
   };
 }
+
+export interface OrderStatusResult {
+  orderNumber: string;
+  status: string;
+  fulfillment: "delivery" | "pickup";
+  deliveryDate: string | null;
+  totalMinor: number;
+  currency: string;
+  createdAt: string;
+  designName: string;
+}
+
+/**
+ * Look up an order's public status by its number, scoped to the proxy-resolved
+ * tenant. Returns only non-sensitive fields (via the get_order_status RPC).
+ */
+export async function getOrderStatus(
+  orderNumber: string,
+): Promise<{ ok: true; order: OrderStatusResult } | { ok: false; error: string }> {
+  const ctx = await getTenantContext();
+  if (!ctx) return { ok: false, error: "Storefront not found." };
+  const clean = orderNumber.trim();
+  if (clean.length < 4) return { ok: false, error: "Enter your order number." };
+
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("get_order_status", {
+    p_bakery: ctx.bakeryId,
+    p_order_number: clean,
+  });
+  if (error) return { ok: false, error: error.message };
+  const row = Array.isArray(data) ? data[0] : data;
+  if (!row) return { ok: false, error: "We couldn't find an order with that number." };
+  return {
+    ok: true,
+    order: {
+      orderNumber: row.order_number,
+      status: row.status,
+      fulfillment: row.fulfillment_type,
+      deliveryDate: row.delivery_date,
+      totalMinor: row.total_minor,
+      currency: row.currency,
+      createdAt: row.created_at,
+      designName: row.design_name,
+    },
+  };
+}
