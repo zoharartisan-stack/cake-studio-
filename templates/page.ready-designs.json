@@ -1,0 +1,6 @@
+{
+  "sections": {
+    "designs": { "type": "ready-designs", "settings": {} }
+  },
+  "order": ["designs"]
+}

@@ -1,0 +1,13 @@
+<section class="section-spacing">
+  <div class="page-width page-width--narrow">
+    <div class="section-head"><h1>Your addresses</h1></div>
+    <div class="card">
+      <p style="margin-bottom:16px;"><a href="{{ routes.account_url }}" style="color:var(--color-primary)">← Back to account</a></p>
+      {%- for address in customer.addresses -%}
+        <div class="summary-row"><dt>{{ address.name }}</dt><dd>{{ address.street }}, {{ address.city }}</dd></div>
+      {%- else -%}
+        <p>No saved addresses.</p>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>

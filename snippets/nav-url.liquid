@@ -1,0 +1,8 @@
+{%- comment -%}
+  Outputs a URL. If a page with `handle` exists, link to it.
+  Otherwise fall back to the homepage anchor `#{anchor}` so the theme
+  works immediately with zero configuration.
+  Params: handle (string), anchor (string)
+{%- endcomment -%}
+{%- assign _p = pages[handle] -%}
+{%- if _p != empty and _p.url != blank -%}{{ _p.url }}{%- else -%}{{ routes.root_url }}#{{ anchor }}{%- endif -%}

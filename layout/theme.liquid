@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="theme-color" content="{{ settings.color_primary }}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@500;600;700&family=Quicksand:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&family=Dancing+Script:wght@600;700&family=Great+Vibes&family=Pacifico&display=swap" rel="stylesheet">
+
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+
+    {{ content_for_header }}
+
+    {%- style -%}
+      :root {
+        --color-primary: {{ settings.color_primary }};
+        --color-primary-rgb: {{ settings.color_primary | color_to_rgb | remove: 'rgb(' | remove: ')' }};
+        --color-background: {{ settings.color_background }};
+        --color-heading: {{ settings.color_heading }};
+        --color-card: {{ settings.color_card }};
+        --color-text: {{ settings.color_text }};
+        --font-heading: {{ settings.heading_font }};
+        --font-body: {{ settings.body_font }};
+      }
+    {%- endstyle -%}
+
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+
+    <script>
+      window.CakeCraft = window.CakeCraft || {};
+      window.CakeCraft.routes = {
+        root: "{{ routes.root_url }}",
+        makeCake: "{{ pages['make-your-own-cake'].url | default: '/pages/make-your-own-cake' }}",
+        readyDesigns: "{{ pages['ready-designs'].url | default: '/pages/ready-designs' }}",
+        checkout: "{{ pages['checkout'].url | default: '/pages/checkout' }}",
+        help: "{{ pages['help'].url | default: '/pages/help' }}"
+      };
+      window.CakeCraft.money = { format: {{ shop.money_format | json }} };
+    </script>
+  </head>
+
+  <body class="template-{{ request.page_type | handle }}">
+    <a class="skip-link" href="#MainContent">{{ 'general.accessibility.skip_to_content' | t }}</a>
+
+    {% section 'header' %}
+
+    <main id="MainContent" class="main-content" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {% section 'footer' %}
+
+    {{ 'theme.js' | asset_url | script_tag }}
+    {{ 'cake-builder.js' | asset_url | script_tag }}
+  </body>
+</html>

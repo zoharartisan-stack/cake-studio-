@@ -1,0 +1,21 @@
+<section class="section-spacing">
+  <div class="page-width">
+    <div class="section-head"><h1>{{ blog.title }}</h1></div>
+    <div class="designs-grid">
+      {%- for article in blog.articles -%}
+        <a class="design-card" href="{{ article.url }}">
+          {%- if article.image -%}
+            <div class="design-card__media"><img class="design-card__img" src="{{ article.image | image_url: width: 500 }}" alt="{{ article.title | escape }}" width="500" height="375" loading="lazy"></div>
+          {%- endif -%}
+          <div class="design-card__body">
+            <h3 class="design-card__title">{{ article.title }}</h3>
+            <p style="font-size:.9rem;opacity:.75;">{{ article.excerpt_or_content | strip_html | truncatewords: 20 }}</p>
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{ "name": "Blog", "settings": [] }
+{% endschema %}

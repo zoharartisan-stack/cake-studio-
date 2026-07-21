@@ -1,0 +1,95 @@
+{%- liquid
+  capture make_url
+    render 'nav-url', handle: 'make-your-own-cake', anchor: 'builder'
+  endcapture
+  capture ready_url
+    render 'nav-url', handle: 'ready-designs', anchor: 'ready-designs'
+  endcapture
+  assign email = section.settings.contact_email | default: settings.contact_email
+  assign phone = section.settings.contact_phone | default: settings.contact_phone
+-%}
+
+<header class="site-header" data-header>
+  <div class="page-width">
+    <div class="header__inner">
+      <div class="header__left">
+        <button class="icon-btn hamburger" type="button" data-drawer-open aria-label="Open menu" aria-expanded="false" aria-controls="MobileDrawer">
+          <span></span><span></span><span></span>
+        </button>
+        <nav class="nav-desktop" aria-label="Primary">
+          <a class="nav-desktop__link" href="{{ routes.root_url }}" {% if request.page_type == 'index' %}aria-current="page"{% endif %}>Home</a>
+          <a class="nav-desktop__link" href="{{ make_url }}">Make Your Own Cake</a>
+          <a class="nav-desktop__link" href="{{ ready_url }}">Ready Designs</a>
+          <div class="nav-desktop__item" data-help-desktop>
+            <button class="nav-desktop__link" type="button" data-help-toggle aria-expanded="false">Help ▾</button>
+            <div class="nav-desktop__panel">
+              <p class="help-line">
+                {% render 'icon', name: 'mail' %}
+                <a href="mailto:{{ email }}">{{ email }}</a>
+              </p>
+              <p class="help-line">
+                {% render 'icon', name: 'phone' %}
+                <a href="tel:{{ phone | replace: ' ', '' }}">{{ phone }}</a>
+              </p>
+            </div>
+          </div>
+        </nav>
+      </div>
+
+      <div class="header__center">
+        <a class="header__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }} home">
+          {%- if section.settings.logo != blank -%}
+            <img class="header__logo-img" src="{{ section.settings.logo | image_url: width: 320 }}" alt="{{ shop.name }}" width="160" height="56">
+          {%- else -%}
+            <span class="header__logo-text"><small>studio</small>Cake Craft</span>
+          {%- endif -%}
+        </a>
+      </div>
+
+      <div class="header__right">
+        <a class="icon-btn" href="{{ routes.cart_url }}" aria-label="Cart" data-cart-link>
+          {% render 'icon', name: 'cart' %}
+          <span class="cart-count" data-cart-count>{{ cart.item_count }}</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile drawer -->
+<div class="drawer-overlay" data-drawer-overlay></div>
+<aside class="drawer" id="MobileDrawer" data-drawer aria-hidden="true">
+  <div class="drawer__header">
+    <span class="drawer__title">Cake Craft</span>
+    <button class="icon-btn" type="button" data-drawer-close aria-label="Close menu">
+      {% render 'icon', name: 'close' %}
+    </button>
+  </div>
+  <nav class="drawer__nav" aria-label="Mobile">
+    <a class="drawer__link" href="{{ routes.root_url }}">Home</a>
+    <a class="drawer__link" href="{{ make_url }}">Make Your Own Cake</a>
+    <a class="drawer__link" href="{{ ready_url }}">Ready Designs</a>
+    <div class="drawer__item" data-drawer-accordion>
+      <button class="drawer__link drawer__toggle" type="button" data-drawer-accordion-toggle aria-expanded="false">
+        Help {% render 'icon', name: 'chevron' %}
+      </button>
+      <div class="drawer__sub">
+        <div class="drawer__sub-inner">
+          <p class="help-line">{% render 'icon', name: 'mail' %} <a href="mailto:{{ email }}">{{ email }}</a></p>
+          <p class="help-line">{% render 'icon', name: 'phone' %} <a href="tel:{{ phone | replace: ' ', '' }}">{{ phone }}</a></p>
+        </div>
+      </div>
+    </div>
+  </nav>
+</aside>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Logo image", "info": "Leave empty to use the text logo" },
+    { "type": "text", "id": "contact_email", "label": "Help email" },
+    { "type": "text", "id": "contact_phone", "label": "Help phone" }
+  ]
+}
+{% endschema %}

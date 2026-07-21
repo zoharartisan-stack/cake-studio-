@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "help": {
+      "type": "help",
+      "blocks": {
+        "f1": { "type": "faq", "settings": { "question": "How far in advance should I order?", "answer": "Please order at least 48 hours ahead so we can craft your cake perfectly. For elaborate custom designs, 3–4 days is ideal." } },
+        "f2": { "type": "faq", "settings": { "question": "Can I upload my own design?", "answer": "Yes! In the 'Make Your Own Cake' builder, step 5 lets you upload an inspiration image." } },
+        "f3": { "type": "faq", "settings": { "question": "Which areas do you deliver to?", "answer": "Contact us with your city and address and we'll confirm delivery availability and timing." } }
+      },
+      "block_order": ["f1", "f2", "f3"]
+    }
+  },
+  "order": ["help"]
+}

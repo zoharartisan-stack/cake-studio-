@@ -1,0 +1,22 @@
+{
+  "current": {
+    "color_primary": "#A22A4E",
+    "color_background": "#FFE4D6",
+    "color_heading": "#000000",
+    "color_card": "#FFFFFF",
+    "color_text": "#3A2A2E",
+    "heading_font": "'Poppins', sans-serif",
+    "body_font": "'Poppins', sans-serif",
+    "contact_email": "cakecraftstudio@gmail.com",
+    "contact_phone": "+92 371 0756370"
+  },
+  "presets": {
+    "Cake Craft": {
+      "color_primary": "#A22A4E",
+      "color_background": "#FFE4D6",
+      "color_heading": "#000000",
+      "color_card": "#FFFFFF",
+      "color_text": "#3A2A2E"
+    }
+  }
+}

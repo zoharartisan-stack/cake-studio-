@@ -1,0 +1,19 @@
+<section class="section-spacing">
+  <div class="page-width">
+    <div class="section-head"><h1>My account</h1></div>
+    <div class="card">
+      <p>Welcome, {{ customer.first_name | default: customer.email }}.</p>
+      <p style="margin-top:8px;"><a href="{{ routes.account_addresses_url }}" style="color:var(--color-primary)">Manage addresses</a> · <a href="{{ routes.account_logout_url }}" style="color:var(--color-primary)">Log out</a></p>
+      <h3 style="margin-top:24px;">Order history</h3>
+      {%- paginate customer.orders by 20 -%}
+        {%- if customer.orders.size > 0 -%}
+          {%- for order in customer.orders -%}
+            <div class="summary-row"><dt><a href="{{ order.customer_url }}">{{ order.name }}</a></dt><dd>{{ order.total_price | money }} — {{ order.financial_status_label }}</dd></div>
+          {%- endfor -%}
+        {%- else -%}
+          <p>No orders yet.</p>
+        {%- endif -%}
+      {%- endpaginate -%}
+    </div>
+  </div>
+</section>

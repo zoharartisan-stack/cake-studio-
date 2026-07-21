@@ -1,0 +1,22 @@
+<section class="section-spacing">
+  <div class="page-width">
+    <div class="section-head"><h1>Collections</h1></div>
+    <div class="designs-grid">
+      {%- for collection in collections -%}
+        <a class="design-card" href="{{ collection.url }}">
+          <div class="design-card__media">
+            {%- if collection.featured_image -%}
+              <img class="design-card__img" src="{{ collection.featured_image | image_url: width: 500 }}" alt="{{ collection.title | escape }}" width="500" height="375" loading="lazy">
+            {%- else -%}
+              <div style="display:flex;align-items:center;justify-content:center;font-size:3rem;">🍰</div>
+            {%- endif -%}
+          </div>
+          <div class="design-card__body"><h3 class="design-card__title">{{ collection.title }}</h3></div>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{ "name": "List collections", "settings": [] }
+{% endschema %}

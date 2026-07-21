@@ -1,0 +1,7 @@
+{
+  "sections": {
+    "builder": { "type": "cake-builder", "settings": {} },
+    "checkout": { "type": "checkout", "settings": { "start_hidden": true } }
+  },
+  "order": ["builder", "checkout"]
+}

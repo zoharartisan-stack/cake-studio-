@@ -1,0 +1,13 @@
+<section class="section-spacing">
+  <div class="page-width page-width--narrow">
+    <div class="section-head"><h1>Activate account</h1></div>
+    <div class="card">
+      {%- form 'activate_customer_password' -%}
+        {{ form.errors | default_errors }}
+        <div class="field"><label class="field__label" for="ap">Password</label><input class="input" type="password" id="ap" name="customer[password]"></div>
+        <div class="field"><label class="field__label" for="apc">Confirm password</label><input class="input" type="password" id="apc" name="customer[password_confirmation]"></div>
+        <button type="submit" class="btn btn--block" style="margin-top:16px;">Activate</button>
+      {%- endform -%}
+    </div>
+  </div>
+</section>

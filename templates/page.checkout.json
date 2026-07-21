@@ -1,0 +1,6 @@
+{
+  "sections": {
+    "checkout": { "type": "checkout", "settings": { "start_hidden": false } }
+  },
+  "order": ["checkout"]
+}

@@ -1,0 +1,46 @@
+{%- liquid
+  assign email = section.settings.contact_email | default: settings.contact_email
+  assign phone = section.settings.contact_phone | default: settings.contact_phone
+  capture make_url
+    render 'nav-url', handle: 'make-your-own-cake', anchor: 'builder'
+  endcapture
+  capture ready_url
+    render 'nav-url', handle: 'ready-designs', anchor: 'ready-designs'
+  endcapture
+-%}
+<footer class="site-footer">
+  <div class="page-width">
+    <div class="footer__inner">
+      <div>
+        <div class="footer__brand-name">Cake Craft</div>
+        <p class="footer__text">{{ section.settings.tagline | default: 'Design your dream cake in a few delightful steps. Handcrafted, premium, and made just for your celebration.' }}</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <a class="footer__link" href="{{ routes.root_url }}">Home</a>
+        <a class="footer__link" href="{{ make_url }}">Make Your Own Cake</a>
+        <a class="footer__link" href="{{ ready_url }}">Ready Designs</a>
+        <a class="footer__link" href="{{ routes.cart_url }}">Cart</a>
+      </div>
+      <div>
+        <h4>Help &amp; Contact</h4>
+        <p class="footer__contact">{% render 'icon', name: 'mail' %} <a href="mailto:{{ email }}">{{ email }}</a></p>
+        <p class="footer__contact">{% render 'icon', name: 'phone' %} <a href="tel:{{ phone | replace: ' ', '' }}">{{ phone }}</a></p>
+      </div>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <div class="page-width">© {{ 'now' | date: '%Y' }} Cake Craft Studio. All rights reserved.</div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    { "type": "textarea", "id": "tagline", "label": "Tagline" },
+    { "type": "text", "id": "contact_email", "label": "Email" },
+    { "type": "text", "id": "contact_phone", "label": "Phone" }
+  ]
+}
+{% endschema %}

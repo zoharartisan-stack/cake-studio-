@@ -1,0 +1,111 @@
+{%- comment -%} Set "Start hidden" ON when this section is used on the homepage alongside the builder. {%- endcomment -%}
+<section class="section-spacing" data-checkout {% if section.settings.start_hidden %}data-checkout-hidden hidden{% endif %}>
+  <div class="page-width page-width--narrow">
+    <div class="section-head" style="margin-bottom:28px;">
+      <span class="section-head__eyebrow">Almost there</span>
+      <h2>Checkout</h2>
+      <p>Enter your details to place your custom cake order.</p>
+    </div>
+
+    <div class="checkout-grid">
+      <div class="card">
+        {%- form 'contact' -%}
+          {%- if form.posted_successfully? -%}
+            <div class="confirm" style="padding:20px 0;">
+              <div class="confirm__icon">{% render 'icon', name: 'check' %}</div>
+              <h2 style="text-align:center;">Order placed successfully!</h2>
+              <p style="text-align:center;margin:12px 0 24px; opacity:.85;">Thank you! Our team will contact you shortly to confirm your custom cake and delivery details.</p>
+              <div class="text-center"><a class="btn" href="{{ routes.root_url }}">Back to home</a></div>
+            </div>
+            <script>try { localStorage.removeItem('cakecraft_order'); } catch(e){}</script>
+          {%- else -%}
+            {%- if form.errors -%}
+              <div class="card" style="background:#fdecef;color:var(--color-primary);margin-bottom:18px;padding:14px 18px;">
+                Please check the highlighted fields and try again.
+              </div>
+            {%- endif -%}
+
+            <div class="field">
+              <label class="field__label" for="ckName">Full name <span style="color:var(--color-primary)">*</span></label>
+              <input class="input" type="text" id="ckName" name="contact[Full Name]" required>
+            </div>
+            <div class="field-row cols-2">
+              <div class="field">
+                <label class="field__label" for="ckPhone">Phone number <span style="color:var(--color-primary)">*</span></label>
+                <input class="input" type="tel" id="ckPhone" name="contact[Phone]" required>
+              </div>
+              <div class="field">
+                <label class="field__label" for="ckEmail">Email address <span style="color:var(--color-primary)">*</span></label>
+                <input class="input" type="email" id="ckEmail" name="contact[email]" required>
+              </div>
+            </div>
+            <div class="field">
+              <label class="field__label" for="ckAddress">Complete address <span style="color:var(--color-primary)">*</span></label>
+              <textarea class="textarea" id="ckAddress" name="contact[Address]" required></textarea>
+            </div>
+            <div class="field">
+              <label class="field__label" for="ckCity">City <span style="color:var(--color-primary)">*</span></label>
+              <input class="input" type="text" id="ckCity" name="contact[City]" required>
+            </div>
+
+            <div class="field">
+              <span class="field__label">Payment method <span style="color:var(--color-primary)">*</span></span>
+              <div class="pay-methods" data-pay-methods>
+                <label class="pay-method is-selected">
+                  <span class="pay-method__radio"></span>
+                  <input type="radio" name="contact[Payment Method]" value="Cash on Delivery" checked hidden>
+                  <span>💵 Cash on Delivery</span>
+                </label>
+                <label class="pay-method">
+                  <span class="pay-method__radio"></span>
+                  <input type="radio" name="contact[Payment Method]" value="Bank Transfer" hidden>
+                  <span>🏦 Bank Transfer</span>
+                </label>
+                <label class="pay-method">
+                  <span class="pay-method__radio"></span>
+                  <input type="radio" name="contact[Payment Method]" value="Card on Delivery" hidden>
+                  <span>💳 Card on Delivery</span>
+                </label>
+              </div>
+            </div>
+
+            <textarea name="contact[body]" data-order-details hidden aria-hidden="true"></textarea>
+            <input type="hidden" name="contact[Order Total]" data-order-total-input value="">
+
+            <div class="step-nav" style="margin-top:24px;">
+              <button type="button" class="btn btn--outline" data-checkout-back>Back to builder</button>
+              <button type="submit" class="btn btn--lg">Place Order</button>
+            </div>
+            <p class="field__hint text-center" style="margin-top:14px;">By placing this order you agree to be contacted about your custom cake.</p>
+          {%- endif -%}
+        {%- endform -%}
+      </div>
+
+      <aside class="preview-panel">
+        <div class="preview-card">
+          <div class="preview-card__head"><h3>Your cake</h3></div>
+          <div class="preview-stage"><div class="livecake" data-livecake data-readonly></div></div>
+          <div class="preview-summary">
+            <dl class="summary-list" data-checkout-summary>
+              <div class="preview-line"><dt>No order found</dt><dd><a href="{% render 'nav-url', handle: 'make-your-own-cake', anchor: 'builder' %}" style="color:var(--color-primary)">Build one</a></dd></div>
+            </dl>
+            <div class="preview-total">
+              <span class="label">Grand Total</span>
+              <span class="amount" data-checkout-total>Rs 0</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Checkout",
+  "settings": [
+    { "type": "checkbox", "id": "start_hidden", "label": "Start hidden (for homepage use with builder)", "default": false }
+  ],
+  "presets": [{ "name": "Checkout" }]
+}
+{% endschema %}

@@ -1,0 +1,17 @@
+<section class="section-spacing">
+  <div class="page-width page-width--narrow">
+    <div class="section-head"><h1>Create account</h1></div>
+    <div class="card">
+      {%- form 'create_customer' -%}
+        {{ form.errors | default_errors }}
+        <div class="field-row cols-2">
+          <div class="field"><label class="field__label" for="fn">First name</label><input class="input" type="text" id="fn" name="customer[first_name]"></div>
+          <div class="field"><label class="field__label" for="ln">Last name</label><input class="input" type="text" id="ln" name="customer[last_name]"></div>
+        </div>
+        <div class="field"><label class="field__label" for="re">Email</label><input class="input" type="email" id="re" name="customer[email]"></div>
+        <div class="field"><label class="field__label" for="rp">Password</label><input class="input" type="password" id="rp" name="customer[password]"></div>
+        <button type="submit" class="btn btn--block" style="margin-top:16px;">Create</button>
+      {%- endform -%}
+    </div>
+  </div>
+</section>

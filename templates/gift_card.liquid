@@ -1,0 +1,25 @@
+{% layout none %}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ shop.name }} — Gift card</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Dancing+Script:wght@700&display=swap">
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+    <style>
+      :root { --color-primary:{{ settings.color_primary }}; --color-background:{{ settings.color_background }}; --color-heading:{{ settings.color_heading }}; --color-card:#fff; --color-text:#3A2A2E; --font-heading:'Poppins',sans-serif; --font-body:'Poppins',sans-serif; }
+      body { display:flex; align-items:center; justify-content:center; min-height:100dvh; padding:24px; }
+    </style>
+  </head>
+  <body>
+    <div class="card text-center" style="max-width:460px;">
+      <div style="font-family:'Dancing Script',cursive;color:var(--color-primary);font-size:2.2rem;">Cake Craft</div>
+      <h1 style="margin:8px 0;">Gift Card</h1>
+      <p style="font-size:2.4rem;font-weight:800;color:var(--color-primary);margin:14px 0;">{{ gift_card.balance | money }}</p>
+      <p style="margin:16px 0;">Use this code at checkout:</p>
+      <p style="font-weight:700;letter-spacing:.08em;font-size:1.2rem;">{{ gift_card.code | format_code }}</p>
+    </div>
+  </body>
+</html>

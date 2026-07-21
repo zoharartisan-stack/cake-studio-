@@ -1,0 +1,45 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {}
+    },
+    "features": {
+      "type": "features",
+      "blocks": {
+        "b1": { "type": "feature", "settings": { "icon": "palette", "title": "Fully Customizable", "text": "Pick every detail — occasion, size, shape, flavor, design and message." } },
+        "b2": { "type": "feature", "settings": { "icon": "sparkle", "title": "Live Preview", "text": "Watch your cake update instantly as you choose each option." } },
+        "b3": { "type": "feature", "settings": { "icon": "heart", "title": "Premium Quality", "text": "Freshly baked by expert bakers with the finest ingredients." } },
+        "b4": { "type": "feature", "settings": { "icon": "truck", "title": "Doorstep Delivery", "text": "Choose your delivery date and time. We handle the rest." } }
+      },
+      "block_order": ["b1", "b2", "b3", "b4"]
+    },
+    "how": {
+      "type": "how-it-works",
+      "blocks": {
+        "s1": { "type": "step", "settings": { "title": "Choose the basics", "text": "Select occasion, size, shape and flavor." } },
+        "s2": { "type": "step", "settings": { "title": "Design it", "text": "Pick a template or upload your own inspiration image." } },
+        "s3": { "type": "step", "settings": { "title": "Add the details", "text": "Message, decorations, extras and delivery." } },
+        "s4": { "type": "step", "settings": { "title": "Order & enjoy", "text": "Review your cake and place the order in seconds." } }
+      },
+      "block_order": ["s1", "s2", "s3", "s4"]
+    },
+    "builder": {
+      "type": "cake-builder",
+      "settings": {}
+    },
+    "checkout": {
+      "type": "checkout",
+      "settings": { "start_hidden": true }
+    },
+    "designs": {
+      "type": "designs-preview",
+      "settings": {}
+    },
+    "cta": {
+      "type": "cta-banner",
+      "settings": {}
+    }
+  },
+  "order": ["hero", "features", "how", "builder", "checkout", "designs", "cta"]
+}

@@ -1,0 +1,312 @@
+{%- assign checkout_url = pages['checkout'].url | default: '/pages/checkout' -%}
+<section class="builder" id="builder" data-builder>
+  <div class="page-width">
+    <div class="section-head reveal" style="margin-bottom:24px;">
+      <span class="section-head__eyebrow">Make your own cake</span>
+      <h2>{{ section.settings.heading | default: 'Design your perfect cake' }}</h2>
+      <p>{{ section.settings.subtitle | default: 'Follow the steps below. Your live preview and price update instantly.' }}</p>
+    </div>
+
+    <!-- Progress -->
+    <div class="progress" data-progress>
+      <div class="progress__bar-track"><div class="progress__bar-fill" data-progress-fill></div></div>
+      <div class="progress__steps" data-progress-steps>
+        {%- assign step_titles = 'Occasion,Size,Shape,Flavor,Design,Message,Delivery,Review' | split: ',' -%}
+        {%- for t in step_titles -%}
+          <button class="progress__step{% if forloop.first %} is-active{% endif %}" type="button" data-goto-step="{{ forloop.index }}">
+            <span class="num">{{ forloop.index }}</span><span>{{ t }}</span>
+          </button>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    <div class="builder__grid">
+      <!-- LEFT: steps -->
+      <div class="builder__steps card">
+        <form data-builder-form novalidate>
+
+          <!-- STEP 1: Occasion -->
+          <div class="step is-active" data-step="1">
+            <h3 class="step__title">What's the occasion?</h3>
+            <p class="step__desc">Pick the celebration this cake is for.</p>
+            <div class="options" data-single-select="occasion">
+              {%- assign occ = 'Birthday,Wedding,Anniversary,Baby Shower,Graduation,Engagement,Eid,Other' | split: ',' -%}
+              {%- assign emojis = '🎂,💍,💕,👶,🎓,💐,🌙,✨' | split: ',' -%}
+              {%- for o in occ -%}
+                <button type="button" class="option" data-value="{{ o }}" data-price="0">
+                  <span class="option__emoji">{{ emojis[forloop.index0] }}</span>
+                  <span class="option__label">{{ o }}</span>
+                </button>
+              {%- endfor -%}
+            </div>
+            <div class="field" data-custom-field="occasion" hidden>
+              <label class="field__label" for="customOccasion">Your custom occasion</label>
+              <input class="input" type="text" id="customOccasion" data-custom-input="occasion" placeholder="e.g. Retirement party">
+            </div>
+          </div>
+
+          <!-- STEP 2: Size -->
+          <div class="step" data-step="2">
+            <h3 class="step__title">Choose your cake size</h3>
+            <p class="step__desc">Bigger cakes serve more guests. Price updates instantly.</p>
+            <div class="options" data-single-select="size">
+              {%- assign sizes = '1 lb,2 lb,3 lb,4 lb,5 lb' | split: ',' -%}
+              {%- assign sizePrices = '1500,2500,3500,4500,5500' | split: ',' -%}
+              {%- assign sizeScale = '0.8,0.9,1,1.1,1.2' | split: ',' -%}
+              {%- for s in sizes -%}
+                <button type="button" class="option" data-value="{{ s }}" data-price="{{ sizePrices[forloop.index0] }}" data-scale="{{ sizeScale[forloop.index0] }}">
+                  <span class="option__emoji">🍰</span>
+                  <span class="option__label">{{ s }}</span>
+                  <span class="option__price">Rs {{ sizePrices[forloop.index0] }}</span>
+                </button>
+              {%- endfor -%}
+              <button type="button" class="option" data-value="Custom" data-price="3500" data-scale="1" data-custom-trigger="size">
+                <span class="option__emoji">📏</span><span class="option__label">Custom</span>
+              </button>
+            </div>
+            <div class="field" data-custom-field="size" hidden>
+              <label class="field__label" for="customSize">Custom size details</label>
+              <input class="input" type="text" id="customSize" data-custom-input="size" placeholder="e.g. 8 lb, 3 tiers">
+              <p class="field__hint">Custom sizes start at Rs 3500. Final price confirmed by our team.</p>
+            </div>
+          </div>
+
+          <!-- STEP 3: Shape -->
+          <div class="step" data-step="3">
+            <h3 class="step__title">Pick a shape</h3>
+            <p class="step__desc">The preview updates to your selected shape.</p>
+            <div class="options" data-single-select="shape">
+              {%- assign shapes = 'Round,Heart,Square,Rectangle' | split: ',' -%}
+              {%- assign shapeEmoji = '⭕,❤️,🟥,▭' | split: ',' -%}
+              {%- assign shapePrice = '0,400,200,300' | split: ',' -%}
+              {%- for sh in shapes -%}
+                <button type="button" class="option" data-value="{{ sh }}" data-price="{{ shapePrice[forloop.index0] }}" data-shape="{{ sh | downcase }}">
+                  <span class="option__emoji">{{ shapeEmoji[forloop.index0] }}</span>
+                  <span class="option__label">{{ sh }}</span>
+                  {%- if shapePrice[forloop.index0] != '0' -%}<span class="option__price">+Rs {{ shapePrice[forloop.index0] }}</span>{%- endif -%}
+                </button>
+              {%- endfor -%}
+              <button type="button" class="option" data-value="Custom" data-price="500" data-shape="round" data-custom-trigger="shape">
+                <span class="option__emoji">✏️</span><span class="option__label">Custom</span><span class="option__price">+Rs 500</span>
+              </button>
+            </div>
+            <div class="field" data-custom-field="shape" hidden>
+              <label class="field__label" for="customShape">Describe your custom shape</label>
+              <input class="input" type="text" id="customShape" data-custom-input="shape" placeholder="e.g. Number 5, guitar, castle">
+            </div>
+          </div>
+
+          <!-- STEP 4: Flavor -->
+          <div class="step" data-step="4">
+            <h3 class="step__title">Select a flavor</h3>
+            <p class="step__desc">Every flavor is baked fresh to order.</p>
+            <div class="options" data-single-select="flavor">
+              {%- assign flavors = 'Chocolate,Vanilla,Red Velvet,Black Forest,Pineapple,Butterscotch' | split: ',' -%}
+              {%- assign flavorPrice = '300,0,500,600,300,400' | split: ',' -%}
+              {%- assign flavorColors = '#5a3620,#f3e2c0,#8b1e3f,#3a2417,#f4e08a,#d9a441' | split: ',' -%}
+              {%- for fl in flavors -%}
+                <button type="button" class="option" data-value="{{ fl }}" data-price="{{ flavorPrice[forloop.index0] }}" data-sponge="{{ flavorColors[forloop.index0] }}">
+                  <span class="option__swatch" style="background:{{ flavorColors[forloop.index0] }}"></span>
+                  <span class="option__label">{{ fl }}</span>
+                  {%- if flavorPrice[forloop.index0] != '0' -%}<span class="option__price">+Rs {{ flavorPrice[forloop.index0] }}</span>{%- endif -%}
+                </button>
+              {%- endfor -%}
+              <button type="button" class="option" data-value="Custom" data-price="400" data-sponge="#c98a54" data-custom-trigger="flavor">
+                <span class="option__emoji">🎨</span><span class="option__label">Custom</span><span class="option__price">+Rs 400</span>
+              </button>
+            </div>
+            <div class="field" data-custom-field="flavor" hidden>
+              <label class="field__label" for="customFlavor">Your custom flavor</label>
+              <input class="input" type="text" id="customFlavor" data-custom-input="flavor" placeholder="e.g. Coffee hazelnut">
+            </div>
+          </div>
+
+          <!-- STEP 5: Design -->
+          <div class="step" data-step="5">
+            <h3 class="step__title">Choose your design</h3>
+            <p class="step__desc">Start from a template or upload your own inspiration.</p>
+            <div class="design-mode-tabs" data-design-tabs>
+              <button type="button" class="design-mode-tab is-active" data-design-mode="template">Templates</button>
+              <button type="button" class="design-mode-tab" data-design-mode="upload">Upload your own</button>
+            </div>
+
+            <div data-design-pane="template">
+              <div class="template-gallery" data-template-gallery>
+                {%- assign tplNames = 'Cherry Blossom,Lavender Dream,Ocean Breeze,Golden Honey,Sweetheart,Fresh Mint,Elegant Noir,Berry Bliss' | split: ',' -%}
+                {%- assign tplColor = '#a22a4e,#7c3aed,#0284c7,#d97706,#a22a4e,#16a34a,#57534e,#e11d48' | split: ',' -%}
+                {%- for i in (1..8) -%}
+                  <button type="button" class="template-item" data-template="{{ forloop.index }}" data-frosting="{{ tplColor[forloop.index0] }}" data-name="{{ tplNames[forloop.index0] }}" aria-label="{{ tplNames[forloop.index0] }}">
+                    {% render 'cake-template', id: forloop.index %}
+                  </button>
+                {%- endfor -%}
+              </div>
+            </div>
+
+            <div data-design-pane="upload" hidden>
+              <label class="upload-zone" data-upload-zone>
+                {% render 'icon', name: 'upload' %}
+                <strong>Click to upload</strong> or drag &amp; drop your inspiration image
+                <p class="field__hint">JPG or PNG, up to 8MB</p>
+                <input type="file" accept="image/*" data-upload-input hidden>
+              </label>
+              <div class="upload-preview" data-upload-preview hidden></div>
+              <p class="field__hint">Custom design work adds Rs 800 to your cake.</p>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="designNotes">Design notes</label>
+              <textarea class="textarea" id="designNotes" data-field="designNotes" placeholder="Colors, theme, style details..."></textarea>
+            </div>
+            <div class="field">
+              <label class="field__label" for="specialInstructions">Special instructions</label>
+              <textarea class="textarea" id="specialInstructions" data-field="specialInstructions" placeholder="Allergies, dietary needs, anything else..."></textarea>
+            </div>
+          </div>
+
+          <!-- STEP 6: Message & Extras -->
+          <div class="step" data-step="6">
+            <h3 class="step__title">Message &amp; extras</h3>
+            <p class="step__desc">Add a personal touch. Extras update your price.</p>
+            <div class="field">
+              <label class="field__label" for="cakeMessage">Cake message</label>
+              <input class="input" type="text" id="cakeMessage" data-field="cakeMessage" maxlength="40" placeholder="e.g. Happy Birthday Sara!">
+              <p class="field__hint">Adds Rs 200 for piped lettering.</p>
+            </div>
+
+            <div class="field">
+              <span class="field__label">Font style</span>
+              <div class="font-pills" data-single-select="messageFont">
+                <button type="button" class="font-pill is-selected" data-value="Dancing Script" data-font="'Dancing Script', cursive" style="font-family:'Dancing Script',cursive;">Sweet</button>
+                <button type="button" class="font-pill" data-value="Poppins" data-font="'Poppins', sans-serif" style="font-family:'Poppins',sans-serif;">Modern</button>
+                <button type="button" class="font-pill" data-value="Playfair Display" data-font="'Playfair Display', serif" style="font-family:'Playfair Display',serif;">Classic</button>
+                <button type="button" class="font-pill" data-value="Pacifico" data-font="'Pacifico', cursive" style="font-family:'Pacifico',cursive;">Playful</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <span class="field__label">Message color</span>
+              <div class="color-pills" data-single-select="messageColor">
+                {%- assign msgColors = '#a22a4e,#000000,#ffffff,#d4af37,#1e3a8a,#16a34a,#e11d48' | split: ',' -%}
+                {%- for c in msgColors -%}
+                  <button type="button" class="color-pill{% if forloop.first %} is-selected{% endif %}" data-value="{{ c }}" style="background:{{ c }}" aria-label="Color {{ c }}"></button>
+                {%- endfor -%}
+              </div>
+            </div>
+
+            <div class="field">
+              <span class="field__label">Optional extras</span>
+              <div class="extras" data-multi-select="extras">
+                {%- assign extras = 'Candles,Cake Topper,Fresh Flowers,Chocolates,Macarons,Sprinkles,Edible Print,Ribbon Decoration' | split: ',' -%}
+                {%- assign extraEmoji = '🕯️,🎉,🌸,🍫,🌈,✨,🖼️,🎀' | split: ',' -%}
+                {%- assign extraPrice = '150,600,800,500,700,150,500,250' | split: ',' -%}
+                {%- for ex in extras -%}
+                  <button type="button" class="extra" data-value="{{ ex }}" data-price="{{ extraPrice[forloop.index0] }}">
+                    <span class="extra__check">{% render 'icon', name: 'check' %}</span>
+                    <span class="extra__emoji">{{ extraEmoji[forloop.index0] }}</span>
+                    <span class="extra__body">
+                      <span class="extra__name">{{ ex }}</span>
+                      <span class="extra__price">+Rs {{ extraPrice[forloop.index0] }}</span>
+                    </span>
+                  </button>
+                {%- endfor -%}
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 7: Delivery -->
+          <div class="step" data-step="7">
+            <h3 class="step__title">Delivery details</h3>
+            <p class="step__desc">Tell us when to deliver your cake.</p>
+            <div class="field-row cols-2">
+              <div class="field">
+                <label class="field__label" for="deliveryDate">Delivery date <span style="color:var(--color-primary)">*</span></label>
+                <input class="input" type="date" id="deliveryDate" data-field="deliveryDate" data-required>
+              </div>
+              <div class="field">
+                <label class="field__label" for="deliveryTime">Delivery time (optional)</label>
+                <input class="input" type="time" id="deliveryTime" data-field="deliveryTime">
+              </div>
+            </div>
+            <div class="field">
+              <label class="field__label" for="deliveryNotes">Delivery notes</label>
+              <textarea class="textarea" id="deliveryNotes" data-field="deliveryNotes" placeholder="Landmark, gate code, preferred time window..."></textarea>
+            </div>
+          </div>
+
+          <!-- STEP 8: Review -->
+          <div class="step" data-step="8">
+            <h3 class="step__title">Review your order</h3>
+            <p class="step__desc">Check everything looks perfect before checkout.</p>
+            <div class="review-grid">
+              <div>
+                <dl class="summary-list" data-review-summary></dl>
+              </div>
+              <div>
+                <div class="price-breakdown">
+                  <span class="field__label">Price breakdown</span>
+                  <dl class="summary-list" data-review-breakdown></dl>
+                </div>
+                <div class="grand-total">
+                  <span class="label">Grand Total</span>
+                  <span class="amount" data-review-total>Rs 0</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Nav buttons -->
+          <div class="step-nav">
+            <button type="button" class="btn btn--outline" data-prev disabled>Previous</button>
+            <button type="button" class="btn" data-next disabled>Next</button>
+            <button type="button" class="btn hidden" data-continue-checkout data-checkout-url="{{ checkout_url }}">Continue to checkout</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- RIGHT: Live preview -->
+      <aside class="preview-panel">
+        <div class="preview-card">
+          <div class="preview-card__head">
+            <h3>Live preview</h3>
+            <span class="section-head__eyebrow">Updates instantly</span>
+          </div>
+          <div class="preview-stage">
+            <div class="livecake" data-livecake></div>
+          </div>
+          <div class="preview-summary">
+            <dl>
+              <div class="preview-line"><dt>Occasion</dt><dd data-pv="occasion">—</dd></div>
+              <div class="preview-line"><dt>Size</dt><dd data-pv="size">—</dd></div>
+              <div class="preview-line"><dt>Shape</dt><dd data-pv="shape">—</dd></div>
+              <div class="preview-line"><dt>Flavor</dt><dd data-pv="flavor">—</dd></div>
+              <div class="preview-line"><dt>Extras</dt><dd data-pv="extras">None</dd></div>
+            </dl>
+            <div class="preview-total">
+              <span class="label">Total</span>
+              <span class="amount" data-price-total>Rs 0</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Loading overlay -->
+  <div class="loader-overlay" data-loader>
+    <div style="text-align:center;">
+      <div class="loader-cake"></div>
+      <p class="loader-text" style="position:static;margin-top:14px;">Preparing your order...</p>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Cake builder",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading" },
+    { "type": "textarea", "id": "subtitle", "label": "Subtitle" }
+  ],
+  "presets": [{ "name": "Cake builder" }]
+}
+{% endschema %}

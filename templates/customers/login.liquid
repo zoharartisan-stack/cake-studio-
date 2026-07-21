@@ -1,0 +1,14 @@
+<section class="section-spacing">
+  <div class="page-width page-width--narrow">
+    <div class="section-head"><h1>Login</h1></div>
+    <div class="card">
+      {%- form 'customer_login' -%}
+        {{ form.errors | default_errors }}
+        <div class="field"><label class="field__label" for="ce">Email</label><input class="input" type="email" id="ce" name="customer[email]"></div>
+        <div class="field"><label class="field__label" for="cp">Password</label><input class="input" type="password" id="cp" name="customer[password]"></div>
+        <button type="submit" class="btn btn--block" style="margin-top:16px;">Sign in</button>
+      {%- endform -%}
+      <p style="margin-top:16px;"><a href="{{ routes.account_register_url }}" style="color:var(--color-primary)">Create account</a></p>
+    </div>
+  </div>
+</section>

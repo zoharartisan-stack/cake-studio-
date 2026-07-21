@@ -1,0 +1,12 @@
+<section class="section-spacing">
+  <div class="page-width page-width--narrow">
+    <div class="section-head"><h1>{{ article.title }}</h1><p>{{ article.published_at | date: '%B %d, %Y' }}</p></div>
+    {%- if article.image -%}
+      <img src="{{ article.image | image_url: width: 1200 }}" alt="{{ article.title | escape }}" style="border-radius:18px;width:100%;height:auto;margin-bottom:24px;">
+    {%- endif -%}
+    <div class="card rte">{{ article.content }}</div>
+  </div>
+</section>
+{% schema %}
+{ "name": "Article", "settings": [] }
+{% endschema %}

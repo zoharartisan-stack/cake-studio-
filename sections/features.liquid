@@ -1,0 +1,50 @@
+<section class="section-spacing">
+  <div class="page-width">
+    <div class="features">
+      {%- for block in section.blocks -%}
+        <div class="feature card reveal" {{ block.shopify_attributes }}>
+          <div class="feature__icon">{% render 'icon', name: block.settings.icon %}</div>
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.text }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Features",
+  "max_blocks": 8,
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "select", "id": "icon", "label": "Icon", "default": "sparkle",
+          "options": [
+            { "value": "sparkle", "label": "Sparkle" },
+            { "value": "palette", "label": "Palette" },
+            { "value": "truck", "label": "Delivery" },
+            { "value": "heart", "label": "Heart" }
+          ]
+        },
+        { "type": "text", "id": "title", "label": "Title", "default": "Feature" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Describe this feature." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Features",
+      "blocks": [
+        { "type": "feature", "settings": { "icon": "palette", "title": "Fully Customizable", "text": "Pick every detail — occasion, size, shape, flavor, design and message." } },
+        { "type": "feature", "settings": { "icon": "sparkle", "title": "Live Preview", "text": "Watch your cake update instantly as you choose each option." } },
+        { "type": "feature", "settings": { "icon": "heart", "title": "Premium Quality", "text": "Freshly baked by expert bakers with the finest ingredients." } },
+        { "type": "feature", "settings": { "icon": "truck", "title": "Doorstep Delivery", "text": "Choose your delivery date and time. We handle the rest." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

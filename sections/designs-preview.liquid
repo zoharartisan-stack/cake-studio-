@@ -1,0 +1,44 @@
+{%- capture make_url %}{% render 'nav-url', handle: 'make-your-own-cake', anchor: 'builder' %}{% endcapture -%}
+{%- capture ready_url %}{% render 'nav-url', handle: 'ready-designs', anchor: 'ready-designs' %}{% endcapture -%}
+<section class="section-spacing" id="ready-designs">
+  <div class="page-width">
+    <div class="section-head reveal">
+      <span class="section-head__eyebrow">{{ section.settings.eyebrow | default: 'Ready designs' }}</span>
+      <h2>{{ section.settings.heading | default: 'Loved by our customers' }}</h2>
+      <p>{{ section.settings.subtitle | default: 'Start from a professionally designed template, or make your own from scratch.' }}</p>
+    </div>
+    <div class="designs-grid">
+      {%- assign names = 'Cherry Blossom,Lavender Dream,Ocean Breeze,Golden Honey,Sweetheart,Fresh Mint,Elegant Noir,Berry Bliss' | split: ',' -%}
+      {%- assign prices = '3500,3200,3000,3300,2800,3100,4200,3600' | split: ',' -%}
+      {%- for i in (1..6) -%}
+        {%- assign idx = forloop.index0 -%}
+        <article class="design-card reveal">
+          <div class="design-card__media">
+            {% render 'cake-template', id: forloop.index %}
+            <span class="design-card__badge">Template</span>
+          </div>
+          <div class="design-card__body">
+            <h3 class="design-card__title">{{ names[idx] }}</h3>
+            <span class="design-card__price">From Rs {{ prices[idx] }}</span>
+            <a class="btn btn--ghost btn--block" href="{{ make_url }}?template={{ forloop.index }}">Customize this</a>
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+    <div class="text-center" style="margin-top:32px;">
+      <a class="btn btn--outline" href="{{ ready_url }}">View all designs</a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Designs preview",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "heading", "label": "Heading" },
+    { "type": "textarea", "id": "subtitle", "label": "Subtitle" }
+  ],
+  "presets": [{ "name": "Designs preview" }]
+}
+{% endschema %}

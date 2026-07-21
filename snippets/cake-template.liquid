@@ -1,0 +1,64 @@
+{%- comment -%}
+  Renders a decorative SVG cake for a given template id (1-8).
+  Params: id (number)
+{%- endcomment -%}
+{%- assign tid = id | default: 1 -%}
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+  {%- case tid -%}
+  {%- when 1 -%}
+    <rect width="200" height="200" fill="#fbe6ee"/>
+    <ellipse cx="100" cy="150" rx="66" ry="14" fill="#fff"/>
+    <rect x="42" y="96" width="116" height="52" rx="8" fill="#f7d3e0"/>
+    <ellipse cx="100" cy="96" rx="58" ry="16" fill="#a22a4e"/>
+    <circle cx="100" cy="70" r="10" fill="#c0264c"/><circle cx="100" cy="70" r="3" fill="#ff9db2"/>
+    <g fill="#fff" opacity=".7"><circle cx="70" cy="120" r="3"/><circle cx="130" cy="126" r="3"/><circle cx="100" cy="132" r="3"/></g>
+  {%- when 2 -%}
+    <rect width="200" height="200" fill="#f3e8ff"/>
+    <ellipse cx="100" cy="152" rx="64" ry="13" fill="#fff"/>
+    <rect x="46" y="98" width="108" height="52" rx="8" fill="#e9d5ff"/>
+    <ellipse cx="100" cy="98" rx="54" ry="15" fill="#7c3aed"/>
+    <path d="M60 98 q8 20 14 0 q8 20 14 0 q8 20 14 0 q8 20 14 0 q8 20 14 0" fill="none" stroke="#fff" stroke-width="4"/>
+    <circle cx="100" cy="74" r="8" fill="#fbbf24"/>
+  {%- when 3 -%}
+    <rect width="200" height="200" fill="#e0f2fe"/>
+    <ellipse cx="100" cy="152" rx="64" ry="13" fill="#fff"/>
+    <rect x="46" y="98" width="108" height="52" rx="8" fill="#bae6fd"/>
+    <ellipse cx="100" cy="98" rx="54" ry="15" fill="#0284c7"/>
+    <g fill="#fff"><circle cx="76" cy="120" r="4"/><circle cx="100" cy="128" r="4"/><circle cx="124" cy="120" r="4"/><circle cx="112" cy="136" r="4"/></g>
+    <rect x="96" y="60" width="8" height="20" rx="3" fill="#f472b6"/>
+  {%- when 4 -%}
+    <rect width="200" height="200" fill="#fef3c7"/>
+    <ellipse cx="100" cy="152" rx="64" ry="13" fill="#fff"/>
+    <rect x="46" y="98" width="108" height="52" rx="8" fill="#fde68a"/>
+    <ellipse cx="100" cy="98" rx="54" ry="15" fill="#d97706"/>
+    <path d="M52 100 q48 26 96 0" fill="none" stroke="#fff" stroke-width="3" opacity=".8"/>
+    <circle cx="100" cy="72" r="9" fill="#dc2626"/>
+  {%- when 5 -%}
+    <rect width="200" height="200" fill="#fce7f3"/>
+    <path d="M100 158 C60 130 52 96 74 84 C90 76 100 92 100 100 C100 92 110 76 126 84 C148 96 140 130 100 158 Z" fill="#a22a4e"/>
+    <path d="M100 150 C68 128 62 100 78 92 C90 86 100 98 100 104 C100 98 110 86 122 92 C138 100 132 128 100 150 Z" fill="#f7d3e0"/>
+    <circle cx="100" cy="108" r="7" fill="#a22a4e"/>
+  {%- when 6 -%}
+    <rect width="200" height="200" fill="#dcfce7"/>
+    <ellipse cx="100" cy="152" rx="64" ry="13" fill="#fff"/>
+    <rect x="46" y="98" width="108" height="52" rx="8" fill="#bbf7d0"/>
+    <ellipse cx="100" cy="98" rx="54" ry="15" fill="#16a34a"/>
+    <g fill="#fff"><rect x="70" y="116" width="8" height="3" rx="1.5" transform="rotate(30 70 116)"/><rect x="120" y="122" width="8" height="3" rx="1.5" transform="rotate(-30 120 122)"/><rect x="98" y="128" width="8" height="3" rx="1.5"/></g>
+    <circle cx="100" cy="74" r="8" fill="#a22a4e"/>
+  {%- when 7 -%}
+    <rect width="200" height="200" fill="#f5f5f4"/>
+    <ellipse cx="100" cy="152" rx="64" ry="13" fill="#fff"/>
+    <rect x="46" y="90" width="108" height="60" rx="8" fill="#e7e5e4"/>
+    <ellipse cx="100" cy="90" rx="54" ry="15" fill="#57534e"/>
+    <g stroke="#d6b25e" stroke-width="2" fill="none"><path d="M52 92 q48 22 96 0"/></g>
+    <rect x="94" y="52" width="12" height="24" rx="4" fill="#d6b25e"/>
+  {%- when 8 -%}
+    <rect width="200" height="200" fill="#ffe4e6"/>
+    <ellipse cx="100" cy="152" rx="64" ry="13" fill="#fff"/>
+    <rect x="42" y="104" width="116" height="46" rx="8" fill="#fecdd3"/>
+    <ellipse cx="100" cy="104" rx="58" ry="15" fill="#e11d48"/>
+    <rect x="54" y="80" width="92" height="30" rx="6" fill="#fda4af"/>
+    <ellipse cx="100" cy="80" rx="46" ry="12" fill="#be123c"/>
+    <circle cx="100" cy="60" r="9" fill="#fff"/><circle cx="100" cy="60" r="4" fill="#e11d48"/>
+  {%- endcase -%}
+</svg>

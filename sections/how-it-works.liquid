@@ -1,0 +1,52 @@
+<section class="section-spacing" style="background: linear-gradient(180deg, transparent, rgba(255,255,255,.4));">
+  <div class="page-width">
+    <div class="section-head reveal">
+      <span class="section-head__eyebrow">{{ section.settings.eyebrow | default: 'Simple &amp; delightful' }}</span>
+      <h2>{{ section.settings.heading | default: 'How it works' }}</h2>
+      <p>{{ section.settings.subtitle | default: 'Building your perfect cake takes just a few easy steps.' }}</p>
+    </div>
+    <div class="features">
+      {%- assign n = 1 -%}
+      {%- for block in section.blocks -%}
+        <div class="feature card reveal" {{ block.shopify_attributes }}>
+          <div class="feature__icon" style="font-size:1.4rem;font-weight:800;">{{ forloop.index }}</div>
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.text }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "How it works",
+  "max_blocks": 4,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "heading", "label": "Heading" },
+    { "type": "textarea", "id": "subtitle", "label": "Subtitle" }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Step" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Describe this step." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "How it works",
+      "blocks": [
+        { "type": "step", "settings": { "title": "Choose the basics", "text": "Select occasion, size, shape and flavor." } },
+        { "type": "step", "settings": { "title": "Design it", "text": "Pick a template or upload your own inspiration image." } },
+        { "type": "step", "settings": { "title": "Add the details", "text": "Message, decorations, extras and delivery." } },
+        { "type": "step", "settings": { "title": "Order &amp; enjoy", "text": "Review your cake and place the order in seconds." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,52 @@
+{%- liquid
+  capture make_url
+    render 'nav-url', handle: 'make-your-own-cake', anchor: 'builder'
+  endcapture
+  capture ready_url
+    render 'nav-url', handle: 'ready-designs', anchor: 'ready-designs'
+  endcapture
+-%}
+<section class="hero">
+  <div class="page-width">
+    <div class="hero__inner">
+      <div class="hero__copy reveal">
+        <span class="hero__eyebrow">{% render 'icon', name: 'sparkle' %} {{ section.settings.eyebrow | default: 'Premium custom cakes' }}</span>
+        <h1 class="hero__title">
+          {{ section.settings.heading_line1 | default: 'Design your dream' }}
+          <span class="accent">{{ section.settings.heading_accent | default: 'cake' }}</span>
+          {{ section.settings.heading_line2 | default: 'in minutes' }}
+        </h1>
+        <p class="hero__subtitle">{{ section.settings.subtitle | default: 'Choose your occasion, size, shape, flavor and decorations with a live preview at every step. Freshly baked, beautifully crafted, delivered to your door.' }}</p>
+        <div class="hero__cta">
+          <a class="btn btn--lg" href="{{ make_url }}">{{ section.settings.button_label | default: 'Customize My Cake' }}</a>
+          <a class="btn btn--outline btn--lg" href="{{ ready_url }}">Browse Ready Designs</a>
+        </div>
+      </div>
+
+      <div class="cake3d-stage reveal">
+        <div class="cake3d" data-cake3d tabindex="0" role="button" aria-label="Interactive cake — hover or tap to change frosting color">
+          <div class="cake3d__turntable"></div>
+          <div class="cake3d__art">
+            {% render 'hero-cake' %}
+          </div>
+          <span class="cake3d__hint">Hover / tap to change frosting</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow text" },
+    { "type": "text", "id": "heading_line1", "label": "Heading line 1" },
+    { "type": "text", "id": "heading_accent", "label": "Heading accent word" },
+    { "type": "text", "id": "heading_line2", "label": "Heading line 2" },
+    { "type": "textarea", "id": "subtitle", "label": "Subtitle" },
+    { "type": "text", "id": "button_label", "label": "Button label" }
+  ],
+  "presets": [{ "name": "Hero" }]
+}
+{% endschema %}

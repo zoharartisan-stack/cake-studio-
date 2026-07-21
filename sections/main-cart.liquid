@@ -1,0 +1,44 @@
+<section class="section-spacing">
+  <div class="page-width page-width--narrow">
+    <div class="section-head"><h1>{{ 'cart.general.title' | t }}</h1></div>
+    {%- if cart.item_count > 0 -%}
+      <div class="card">
+        <form action="{{ routes.cart_url }}" method="post" novalidate>
+          {%- for item in cart.items -%}
+            <div class="cart-item">
+              {%- if item.image -%}<img class="cart-item__img" src="{{ item.image | image_url: width: 160 }}" alt="{{ item.title | escape }}">{%- else -%}<div class="cart-item__img" style="display:flex;align-items:center;justify-content:center;font-size:1.8rem;">🎂</div>{%- endif -%}
+              <div>
+                <a href="{{ item.url }}" style="font-weight:600;color:var(--color-heading);">{{ item.product.title }}</a>
+                {%- if item.properties -%}
+                  <div class="cart-props">
+                    {%- for p in item.properties -%}{%- unless p.last == blank -%}{{ p.first }}: {{ p.last }}<br>{%- endunless -%}{%- endfor -%}
+                  </div>
+                {%- endif -%}
+                <div style="margin-top:6px;">
+                  <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" class="input" style="width:80px;padding:8px;">
+                </div>
+              </div>
+              <div style="text-align:right;font-weight:600;color:var(--color-primary);">{{ item.final_line_price | money }}</div>
+            </div>
+          {%- endfor -%}
+          <div class="preview-total" style="margin-top:20px;">
+            <span class="label">{{ 'cart.general.subtotal' | t }}</span>
+            <span class="amount">{{ cart.total_price | money }}</span>
+          </div>
+          <div class="step-nav" style="margin-top:20px;">
+            <button type="submit" name="update" class="btn btn--outline">Update</button>
+            <button type="submit" name="checkout" class="btn btn--lg">{{ 'cart.general.checkout' | t }}</button>
+          </div>
+        </form>
+      </div>
+    {%- else -%}
+      <div class="card text-center">
+        <p style="font-size:1.2rem;margin-bottom:20px;">{{ 'cart.general.empty' | t }}</p>
+        <a class="btn" href="{% render 'nav-url', handle: 'make-your-own-cake', anchor: 'builder' %}">Customize My Cake</a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+{% schema %}
+{ "name": "Cart", "settings": [] }
+{% endschema %}

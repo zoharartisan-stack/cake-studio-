@@ -1,0 +1,51 @@
+{%- comment -%} Detailed SVG cake for the hero 3D stage. Frosting classes are recolored by JS on hover. {%- endcomment -%}
+<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Interactive 3D cake">
+  <defs>
+    <radialGradient id="cc-plate" cx="50%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f0d5c8"/>
+    </radialGradient>
+    <linearGradient id="cc-sponge" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#c98a54"/>
+      <stop offset="100%" stop-color="#a4632f"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Plate -->
+  <ellipse cx="150" cy="252" rx="112" ry="26" fill="url(#cc-plate)"/>
+  <ellipse cx="150" cy="248" rx="112" ry="24" fill="#ffffff"/>
+
+  <!-- Bottom tier -->
+  <path d="M56 168 h188 v54 a94 30 0 0 1 -188 0 z" fill="url(#cc-sponge)"/>
+  <!-- bottom tier frosting top -->
+  <ellipse cx="150" cy="168" rx="94" ry="26" class="cake3d__frost"/>
+  <!-- drips -->
+  <path d="M56 168 q0 34 14 40 q6 -20 16 -6 q6 -20 18 -4 q8 -22 20 -2 q8 -22 22 0 q10 -22 22 -2 q10 -22 22 2 q8 -18 14 -28 l0 0 a94 26 0 0 1 -188 0 z" class="cake3d__frost-shade" opacity="0.9"/>
+  <ellipse cx="150" cy="166" rx="94" ry="24" class="cake3d__frost"/>
+
+  <!-- Top tier -->
+  <path d="M92 96 h116 v46 a58 20 0 0 1 -116 0 z" fill="url(#cc-sponge)"/>
+  <ellipse cx="150" cy="96" rx="58" ry="18" class="cake3d__frost"/>
+  <path d="M92 96 q0 26 10 30 q6 -16 14 -3 q7 -17 16 -2 q8 -16 18 0 q8 -16 18 -1 q7 -15 16 0 q6 -14 12 -24 a58 18 0 0 1 -116 0 z" class="cake3d__frost-shade" opacity="0.9"/>
+  <ellipse cx="150" cy="94" rx="58" ry="17" class="cake3d__frost"/>
+
+  <!-- Frosting highlights -->
+  <ellipse cx="130" cy="90" rx="20" ry="5" class="cake3d__frost-light" opacity="0.6"/>
+  <ellipse cx="120" cy="162" rx="28" ry="6" class="cake3d__frost-light" opacity="0.5"/>
+
+  <!-- Cherries on top -->
+  <path d="M150 92 q-4 -18 -14 -26" fill="none" stroke="#7c8b3a" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M150 92 q4 -18 16 -24" fill="none" stroke="#7c8b3a" stroke-width="2.4" stroke-linecap="round"/>
+  <circle cx="135" cy="66" r="11" fill="#c0264c"/>
+  <circle cx="131" cy="62" r="3.4" fill="#ff8aa5" opacity="0.8"/>
+  <circle cx="167" cy="68" r="11" fill="#a22a4e"/>
+  <circle cx="163" cy="64" r="3.4" fill="#ff8aa5" opacity="0.8"/>
+
+  <!-- little sprinkles -->
+  <g fill="#a22a4e" opacity="0.75">
+    <rect x="112" y="150" width="9" height="3.4" rx="1.7" transform="rotate(24 112 150)"/>
+    <rect x="176" y="156" width="9" height="3.4" rx="1.7" transform="rotate(-30 176 156)"/>
+    <rect x="150" y="150" width="9" height="3.4" rx="1.7" transform="rotate(60 150 150)"/>
+    <rect x="126" y="86" width="7" height="3" rx="1.5" transform="rotate(-20 126 86)"/>
+  </g>
+</svg>

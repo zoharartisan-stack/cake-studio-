@@ -1,0 +1,89 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Cake Craft",
+    "theme_version": "1.0.0",
+    "theme_author": "Cake Craft Studio",
+    "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
+    "theme_support_url": "https://help.shopify.com/en/questions"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary color",
+        "default": "#A22A4E"
+      },
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Background color",
+        "default": "#FFE4D6"
+      },
+      {
+        "type": "color",
+        "id": "color_heading",
+        "label": "Heading color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "color_card",
+        "label": "Card color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Body text color",
+        "default": "#3A2A2E"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "select",
+        "id": "heading_font",
+        "label": "Heading font",
+        "options": [
+          { "value": "'Poppins', sans-serif", "label": "Poppins" },
+          { "value": "'Playfair Display', serif", "label": "Playfair Display" },
+          { "value": "'Quicksand', sans-serif", "label": "Quicksand" }
+        ],
+        "default": "'Poppins', sans-serif"
+      },
+      {
+        "type": "select",
+        "id": "body_font",
+        "label": "Body font",
+        "options": [
+          { "value": "'Poppins', sans-serif", "label": "Poppins" },
+          { "value": "'Quicksand', sans-serif", "label": "Quicksand" },
+          { "value": "'Nunito', sans-serif", "label": "Nunito" }
+        ],
+        "default": "'Poppins', sans-serif"
+      }
+    ]
+  },
+  {
+    "name": "Contact",
+    "settings": [
+      {
+        "type": "text",
+        "id": "contact_email",
+        "label": "Contact email",
+        "default": "cakecraftstudio@gmail.com"
+      },
+      {
+        "type": "text",
+        "id": "contact_phone",
+        "label": "Contact phone",
+        "default": "+92 371 0756370"
+      }
+    ]
+  }
+]

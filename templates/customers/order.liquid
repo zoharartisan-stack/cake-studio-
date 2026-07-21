@@ -1,0 +1,11 @@
+<section class="section-spacing">
+  <div class="page-width">
+    <div class="section-head"><h1>Order {{ order.name }}</h1><p>{{ order.created_at | date: '%B %d, %Y' }}</p></div>
+    <div class="card">
+      {%- for line_item in order.line_items -%}
+        <div class="summary-row"><dt>{{ line_item.title }} × {{ line_item.quantity }}</dt><dd>{{ line_item.final_line_price | money }}</dd></div>
+      {%- endfor -%}
+      <div class="preview-total" style="margin-top:16px;"><span class="label">Total</span><span class="amount">{{ order.total_price | money }}</span></div>
+    </div>
+  </div>
+</section>
