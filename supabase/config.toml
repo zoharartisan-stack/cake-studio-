@@ -1,0 +1,8 @@
+# Supabase project configuration.
+# Link with: supabase link --project-ref ajjqpryhjjwrttexhevp
+# Migrations live in ./migrations and are applied with: supabase db push
+project_id = "ajjqpryhjjwrttexhevp"
+
+[db]
+# Postgres major version (matches the remote project).
+major_version = 17

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800" role="img" aria-label="Decorative soft blob background">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFE4DE"/>
+      <stop offset="1" stop-color="#F8BCB0"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#F6D3DC"/>
+      <stop offset="1" stop-color="#EBA9BC"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#g1)" d="M612,168c62,54,101,151,79,236c-22,85-105,158-201,196c-96,38-205,41-273-9c-68-50-95-153-71-243c24-90,99-167,190-197C427,121,550,114,612,168Z"/>
+  <path fill="url(#g2)" opacity="0.75" d="M243,140c78-38,186-33,257,24c71,57,105,166,72,255c-33,89-133,157-236,160c-103,3-209-59-244-153c-35-94,1-220,55-296C202,208,165,178,243,140Z"/>
+</svg>
